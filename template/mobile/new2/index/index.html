@@ -1,0 +1,262 @@
+<!-- 顶部 -->
+
+<include file="public/header"/>
+
+<!-- 顶部 -->
+<link rel="stylesheet" href="__STATIC__/swiper/css/swiper.min.css">
+
+
+
+
+
+
+ <include file="public/left"/>
+
+ <!-------------------------------- 轮播图内容 -------------------------------------->
+
+ <div class="swiper-container" id="carousel">
+
+     <div class="swiper-wrapper">
+
+     	<!-- <adv pid="2" item="v1" limit="5"> -->
+
+         <div class="swiper-slide">
+
+         <a href="{$v1[ad_link]}" <if condition="$v1['target'] eq 1">target="_blank"</if>>
+
+             <img src="{$v1[ad_code]}"></a>
+
+         </div>
+
+         <!-- </adv> -->
+
+         
+
+     </div>
+
+
+
+     <div class="swiper-pagination"></div>
+
+ </div>
+
+
+
+ <!-------------------------------- 馆内容 -------------------------------------->
+
+<div id="nationalPavilion">
+
+	<!-- <volist name="country" id="vo"> -->
+
+    <div onclick="$('.am-offcanvas-sub').hide();$('.cou_tab_{$vo.id}').show();" class="item">
+
+        <a href="javascript:void(0)">
+
+            <img src="{$vo[image]}">
+
+        </a>
+
+    </div>
+
+    
+
+    <!-- </volist>   -->
+
+</div>
+
+
+
+ <!-------------------------------- 热卖产品 -------------------------------------->
+
+<!--<div class="pro-square">
+
+    <h2 class="pro-head">
+
+        热卖产品
+
+    </h2>
+
+    <volist name="index_hot_goods" id="rg">
+
+    <div class="am-u-sm-6 am-u-md-4 item">
+
+        <div class="pro-img" onclick="location.href='{:U('Goods/goodsInfo',array('id'=>$rg[goods_id]))}'">
+
+            <img src="{$rg[goods_id]|goods_thum_images=200,200}" />
+
+        </div>
+
+        <div class="pro-intro">
+
+            <p>{$rg[goods_name]|getSubstr=0,15}</p>
+
+            <span class="price">
+
+                 <i>¥</i>{$rg[shop_price]}
+
+            </span>
+
+            <span class="add"  onclick="AjaxAddCart({$rg[goods_id]},$('#num_'+{$rg[goods_id]}).val());">
+
+                加入购物车
+
+            </span>
+
+            <input type="text" min="1" max="50" value="1" id="num_{$rg[goods_id]}">
+
+        </div>
+
+    </div>
+
+     </volist> 
+
+    
+
+</div>-->
+
+
+
+<!-------------------------------- 特色产品 -------------------------------------->
+
+<div class="pro-square">
+
+    <h2 class="pro-head">
+
+        特色产品
+
+    </h2>
+    <div class="pclink swiper-container">
+
+        <div class="swiper-wrapper">
+
+        <!-- <volist name="index_recommend_goods" id="rg"> -->
+    
+            <div class="swiper-slide item index-item">
+
+                <div class="pro-img" onclick="location.href='{:U('Goods/goodsInfo',array('id'=>$rg[goods_id]))}'">
+
+                    <img src="{$rg[goods_id]|goods_thum_images=200,200}" />
+
+                </div>
+
+                <div class="pro-intro">
+
+                    <p>{$rg[goods_name]|getSubstr=0,15}</p>
+
+                    <span class="price">
+
+                         <i>¥</i>{$rg[shop_price]}
+
+                    </span>
+
+                    <span class="add"  onclick="AjaxAddCart({$rg[goods_id]},$('#num_'+{$rg[goods_id]}).val());">
+
+                        加入购物车
+
+                    </span>
+
+                    <input type="text" min="1" max="50" value="1" id="num_{$rg[goods_id]}">
+
+                </div>
+
+            </div>
+
+        <!-- </volist> -->
+    
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-------------------------------- 新品上市 -------------------------------------->
+
+<div class="pro-square">
+
+    <h2 class="pro-head">
+
+        新品上市
+
+    </h2>
+    <div class="pclink swiper-container">
+
+        <div class="swiper-wrapper">
+
+        <!-- <volist name="index_new_goods" id="rg"> -->
+
+        <div class="swiper-slide item index-item">
+
+            <div class="pro-img" onclick="location.href='{:U('Goods/goodsInfo',array('id'=>$rg[goods_id]))}'">
+
+                <img src="{$rg[goods_id]|goods_thum_images=200,200}" />
+
+            </div>
+
+            <div class="pro-intro">
+
+                <p>{$rg[goods_name]|getSubstr=0,15}</p>
+
+                <span class="price">
+
+                     <i>¥</i>{$rg[shop_price]}
+
+                </span>
+
+                <span class="add"  onclick="AjaxAddCart({$rg[goods_id]},$('#num_'+{$rg[goods_id]}).val());">
+
+                    加入购物车
+
+                </span>
+
+                <input type="text" min="1" max="50" value="1" id="num_{$rg[goods_id]}">
+
+            </div>
+
+        </div>
+
+        <!-- </volist> -->
+        </div>
+    </div>
+
+</div>
+
+
+
+<!-- 底部 -->
+
+<include file="public/footer"/>
+
+<!-- 底部 -->
+
+  <script src="__STATIC__/swiper/js/swiper.min.js" type="text/javascript" charset="utf-8"></script>
+
+<script>
+    var mySwiper = new Swiper('.pclink', {
+        slidesPerView: 2,//一行显示几个
+        slidesPerColumn: 2,//显示几行
+        spaceBetween: 0,
+        slidesPerColumnFill : 'row',
+        autoplay: false,
+        loopFillGroupWithBlank: true,
+      breakpoints:{
+        // 992:{
+        //     slidesPerView: 3,
+        //     slidesPerColumn: 2,
+        //     spaceBetween: 0,
+        // },
+        768:{
+            slidesPerView: 2,
+            slidesPerColumn: 2,
+            spaceBetween: 0,
+        },
+        400:{
+            slidesPerView: 2,
+            slidesPerColumn: 2,
+            spaceBetween: 0,
+        }
+      }
+    });
+</script>
+

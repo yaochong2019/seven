@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+    <meta name="renderer" content="webkit" />
+
+    <meta name="keyword" content="" />
+
+    <meta name="description" content="" />
+
+    <title>净会</title>
+
+    <link rel="stylesheet" href="__STATIC__/css/normalize.css">
+
+    <link rel="stylesheet" href="__STATIC__/css/iconfont.css">
+
+    <link rel="stylesheet" href="__STATIC__/vendor/swiper/css/swiper.min.css">
+
+    <link rel="stylesheet" href="__STATIC__/css/main.css">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+
+    <!--[if lt IE 9]>
+
+	<script src="__STATIC__/vendor/html5shiv.min.js"></script>
+
+	<script src="__STATIC__/vendor/respond.min.js"></script>
+
+	<script>
+
+		alert("您的浏览器版本过低请升级！");
+
+		location.href = "http://outdatedbrowser.com/zh-cn";
+
+	</script>
+
+	<![endif]-->
+
+</head>
+
+<body>
+
+<!--header-->
+
+<include file="public/header"/>
+
+<!--member-->
+
+<div class="container">
+
+<include file="public/left_nav"/>
+
+	<div class="member clearfix">
+
+		<div class="member-right">
+
+			<div class="right-cont">
+
+				<div class="order-detail">
+
+					<div class="order-basic-message">
+
+						<div class="head">订单信息</div>
+
+						<div class="cont clearfix">
+
+							<div class="left">
+
+                                <div class="left-item">
+
+                                    <span class="t">收货人：</span><span class="c">{$order_info.consignee}&nbsp;&nbsp;|&nbsp;&nbsp; {$order_info.mobile}</span>
+
+                                </div>
+
+                                <div class="left-item">
+
+                                    <span class="t">收货地址：</span><span class="c">{$region_list[$order_info['province']]},{$region_list[$order_info['city']]},{$region_list[$order_info['district']]},{$order_info.address}</span>
+
+                                </div>
+
+                                <div class="left-item">
+
+                                    <span class="t">订单号：</span><span class="c">{$order_info.order_sn}</span>
+
+                                </div>
+
+                                <div class="left-item">
+
+                                    <span class="t">支付金额：</span><span class="c price">￥{$order_info.order_amount}</span>
+
+                                </div>
+
+                                <div class="left-item">
+
+                                    <span class="t">下单时间：</span><span class="c">{$order_info.add_time|date='Y-m-d H:i:s',###}</span>
+
+                                </div>
+
+                            </div>
+
+							<div class="right" style="margin-right: 60px;">
+
+                                <if condition="$order_info.order_prom_type eq 4">
+
+                                    <div class="order-status"><span>订单类型：</span><span>预售订单&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span></div>
+
+                                    <if condition="$order_info.pre_sell_is_finished eq 2">
+
+                                        <div class="order-status"><span>关闭原因：</span><span>商家取消活动，返还订金</span></div>
+
+                                        <div class="order-status" style="font-size: 20px;"><b>当前状态：订单关闭</b></div>
+
+                                    </if>
+
+                                    <if condition="$order_info.pre_sell_is_finished eq 1">
+
+                                        <if condition="time() gt $order_info.pre_sell_retainage_end">
+
+                                           <div class="order-status"><span>关闭原因：</span><span>已过支付尾款时间</span></div>
+
+                                            <div class="order-status" style="font-size: 20px;"><b>当前状态：订单关闭</b></div>
+
+                                        </if>
+
+                                    </if>
+
+                                </if>
+
+
+
+                                <if condition="$order_info.pay_btn eq 1">
+
+                                    <div class="order-status" style="font-size: 20px;"><b>当前状态：等待付款</b></div>
+
+                                    <a class="btn btn-primary" href="{:U('Home/Cart/cart4',array('order_id'=>$order_info[order_id]))}">立即付款</a>
+
+                                    <else/>
+
+                                    <div class="order-status" style="font-size: 20px;"><b>当前状态：{$order_info.order_status_desc}</b></div>
+
+                                    <a class="btn btn-primary" href="{:U('Home/Goods/goodsInfo',array('id'=>$goods['goods_id']))}">再次购买</a>
+
+                                    <!--<a class="ddn3" href="">评价</a>-->
+
+                                </if>
+
+                                <if condition="$order_info.receive_btn eq 1 ">
+
+                                    <a class="btn btn-primary" href="javascript:;" onclick="order_confirm({$order_info['order_id']})">确认收货</a>
+
+                                </if>
+
+                                <if condition="$order_info.cancel_btn eq 1">
+
+                                    <if condition="$order_info[pay_status] eq 0">
+
+                                        <a class="btn btn-primary" href="javascript:;" onclick="cancel_order({$order_info.order_id})">取消订单</a>
+
+                                    <else/>
+
+                                        <a class="btn btn-primary" href="javascript:void(0);" data-url="{:U('Home/Order/refund_order',array('order_id'=>$order_info[order_id]))}" onClick="refund_order(this)" >取消订单</a>
+
+                                    </if>
+
+                                </if>
+
+                                <if condition="$order_info.order_prom_type eq 4 AND $order_info.pay_status eq 2 AND $order_info.pre_sell_is_finished eq 1 AND (time() egt $order_info.pre_sell_retainage_start AND time() elt $order_info.pre_sell_retainage_end)">
+
+                                    <a class="btn btn-primary" href="{:U('/Home/Cart/cart4',array('order_id'=>$order_info[order_id]))}'">支付尾款</a>
+
+                                </if>
+
+                            </div>
+
+						</div>
+
+					</div>
+
+					<div class="order-list">
+
+						<div class="order-list-item">
+
+							<table class="table">
+
+								<thead>
+
+								<tr>
+
+									<th colspan="2">
+
+										<div class="product-from">郑州保税仓</div>
+
+									</th>
+
+									<th width="120">
+
+										单价
+
+									</th>
+
+									<th width="120">
+
+										数量
+
+									</th>
+
+									<th width="100">
+
+										总计
+
+									</th>
+
+								</tr>
+
+								</thead>
+
+                                <volist name="list" id="goods">
+
+								<tbody>
+
+								<tr>
+
+									<td width="120">
+
+										<a href="{:U('Home/Goods/goodsInfo',array('id'=>$goods['goods_id']))}"><img src="{$goods.goods_id|goods_thum_images=200,200}" alt=""></a>
+
+									</td>
+
+									<td class="text-left">
+
+										<div class="product-name">{$goods.goods_name}</div>
+
+										<div class="product-code">商品编号:{$goods.goods_sn}</div>
+
+										<div class="product-weight">重量：<if condition="$goods.weight eq 0">0.00kg<else/>{$goods.weight}g</if></div>
+
+									</td>
+
+									<td width="120">
+
+										<div class="unit-price">
+
+											<div class="old-price">￥{$goods.market_price}</div>
+											<if condition="$order_info.group_id neq ''">
+											<div class="now-price">￥{$order_info.goods_price}</div>
+											<else/>
+											<div class="now-price">￥{$goods.member_goods_price}</div>
+											</if>
+											
+
+										</div>
+
+									</td>
+
+									<td width="120">{$goods.goods_num}</td>
+
+									<td width="100">
+
+										<span class="total-price">￥{$order_info.order_amount}</span>
+
+									</td>
+
+								</tr>
+
+                                <tr>
+
+                                    <td colspan="5" class="order-summary">
+
+                                        <div>
+
+                                            <p class="commodity-num">商品件数：<span>{$goods.goods_num}</span>件</p>
+
+                                            <p class="commodity-price">商品税费（不含运费税）：￥0.00</p>
+
+                                            <p class="commodity-price">商品应付总计：￥{$order_info.order_amount}</p>
+
+                                            <p class="commodity-total-price">总价（不含运费）：<span>￥{$order_info.total_amount}</span></p>
+
+                                        </div>
+
+                                    </td>
+
+                                </tr>
+
+								</tbody>
+
+                                </volist>
+
+							</table>
+
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+</div>
+
+<!--footer-->
+
+<include file="public/footer"/>
+
+<script src="__STATIC__/vendor/jquery.min.js"></script>
+
+<script src="__STATIC__/vendor/swiper/js/swiper.min.js"></script>
+
+<script src="__STATIC__/vendor/layer/layer.js"></script>
+
+<script src="__STATIC__/js/main.js"></script>
+
+<script>
+
+
+
+    //二级菜单下的品牌滚动
+
+    new Swiper('.food-sub-menu-scroll', {
+
+        direction: 'vertical',
+
+        autoHeight: true,
+
+        navigation: {
+
+            nextEl: '.food-brand-list-up',
+
+            prevEl: '.food-brand-list-down'
+
+        },
+
+        observer:true,
+
+        observeParents:true
+
+    });
+
+
+
+    //未支付取消订单
+
+    function cancel_order(id){
+
+        layer.confirm("确定取消订单?",{
+
+            btn:['确定','取消']
+
+        },function(){
+
+            location.href = "/index.php?m=Home&c=Order&a=cancel_order&id="+id;
+
+        }, function(tmp){
+
+            layer.close(tmp);
+
+        })
+
+    }
+
+    //已支付取消订单
+
+    function refund_order(obj){
+
+        layer.open({
+
+            type: 2,
+
+            title: '<b>订单取消申请</b>',
+
+            skin: 'layui-layer-rim',
+
+            shadeClose: true,
+
+            shade: 0.5,
+
+            area: ['600px', '500px'],
+
+            content: $(obj).attr('data-url'),
+
+        });
+
+    }
+
+    //确定收货
+
+    function order_confirm(order_id){
+
+        layer.confirm("你确定收到货了吗?",{
+
+            btn:['确定','取消']
+
+        },function(){
+
+            $.ajax({
+
+                type : 'post',
+
+                url : '/index.php?m=Home&c=Order&a=order_confirm&order_id='+order_id,
+
+                dataType : 'json',
+
+                success : function(data){
+
+                    if(data.status == 1){
+
+                        showErrorMsg(data.msg);
+
+                        window.location.href = data.url;
+
+                    }else{
+
+                        showErrorMsg(data.msg);
+
+                    }
+
+                },
+
+                error : function(XMLHttpRequest, textStatus, errorThrown) {
+
+                    showErrorMsg('网络失败，请刷新页面后重试');
+
+                }
+
+            })
+
+        }, function(index){
+
+            layer.close(index);
+
+        });
+
+    }
+
+
+
+
+
+</script>
+
+</body>
+
+</html>

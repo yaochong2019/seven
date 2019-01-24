@@ -1,0 +1,321 @@
+<!--header-->
+
+<header class="header">
+
+    <div class="container clearfix">
+
+        <div class="header-left fl clearfix">
+
+            <a class="logo" href="/">Logo</a>
+
+            <img src="__STATIC__/images/basic/subject.png" alt="">
+
+        </div>
+
+        <div class="header-right fr clearfix">
+
+            <div class="fast-menu fr" <if condition="$user.user_id neq null"> style="width: 140px;" </if>>
+
+                <!--<if condition="$user.user_id eq null">-->
+
+                <a href="{:U('Home/user/login')}">登录</a><span>|</span>
+
+                <a href="{:U('Home/content/index')}">客服</a><span>|</span>
+
+                <a href="{:U('Home/Order/order_list')}">订单</a><br>
+
+                <a href="{:U('/Home/Article/detail/article_id/28')}">我们</a><span>|</span>
+
+                <!--<a href="{:U('Home/Order/order_list')}">订单</a>-->
+
+                <!--<a href="{:U('Home/article/about')}">我们</a><span>|</span>-->
+
+                <a href="{:U('Home/article/articleList')}">资料</a><span>|</span>
+
+                <a href="{:U('Home/cart/index')}" class="cart"><i class="iconfont"><img src="__STATIC__/images/pc_shop.png" alt=""></i><span class="badge shop-nums" id="cart_quantity">0</span></a>
+
+                <!--<a href="{:U('Home/cart/index')}" class="cart"><i class="iconfont icon-cart"></i><span class="badge shop-nums" id="cart_quantity">12</span></a>-->
+
+                <!--<else />-->
+                <div class="login-info" style="margin-top:-22px;">
+                    <a href="{:U('Home/user/index')}" style="overflow: hidden;height: 20px;width: 70%;">{$user.nickname ? $user.nickname :$user.username}</a><br>
+
+                    <a href="{:U('Home/user/logout')}">退出</a><span>|</span>
+
+                    <a href="{:U('Home/content/index')}">客服</a><span>|</span>
+
+                    <a href="{:U('Home/Order/order_list')}">订单</a>
+
+                    <a href="{:U('/Home/Article/detail/article_id/28')}">我们</a><span>|</span>
+
+                    <a href="{:U('Home/article/articleList')}">资料</a><span>|</span>
+
+                    <a href="{:U('Home/cart/index')}" class="cart"><i class="iconfont"><img src="__STATIC__/images/pc_shop.png" alt=""></i><span class="badge shop-nums" id="cart_quantity">{$car_num}</span></a>
+                </div>
+                <!--</if>-->
+
+
+
+            </div>
+
+            <div class="header-search fr">
+
+                <form id="searchForm" method="get" action="{:U('Home/Goods/search')}">
+
+                    <input placeholder="输入想要的商品或品牌" class="text ecsc-search-input" type="text" autocomplete="off" name="q" id="q" value="{$Request.param.q}" />
+
+                    <button type="submit" class="btn">搜索</button>
+
+                    <script src="__STATIC__/vendor/jquery.min.js"></script>
+
+                    <script type="text/javascript">
+
+                    ;(function($){
+
+                        $.fn.extend({
+
+                            donetyping: function(callback,timeout){
+
+                                timeout = timeout || 1e3;
+
+                                var timeoutReference,
+
+                                        doneTyping = function(el){
+
+                                            if (!timeoutReference) return;
+
+                                            timeoutReference = null;
+
+                                            callback.call(el);
+
+                                        };
+
+                                return this.each(function(i,el){
+
+                                    var $el = $(el);
+
+                                    $el.is(':input') && $el.on('keyup keypress',function(e){
+
+                                        if (e.type=='keyup' && e.keyCode!=8) return;
+
+                                        if (timeoutReference) clearTimeout(timeoutReference);
+
+                                        timeoutReference = setTimeout(function(){
+
+                                            doneTyping(el);
+
+                                        }, timeout);
+
+                                    }).on('blur',function(){
+
+                                        doneTyping(el);
+
+                                    });
+
+                                });
+
+                            }
+
+                        });
+
+                    })(jQuery);
+
+                    function searchWord(words){
+
+                        $('#q').val(words);
+
+                        $('#searchForm').submit();
+
+                    }
+
+                    function search_key(){
+
+                        var search_key = $.trim($('#q').val());
+
+                        if(search_key != ''){
+
+                            $.ajax({
+
+                                type:'post',
+
+                                dataType:'json',
+
+                                data: {key: search_key},
+
+                                url:"{:U('Home/Api/searchKey')}",
+
+                            });
+
+                        }
+
+                    }
+
+                </script>
+
+                </form>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</header>
+
+<!--nav-->
+
+<nav class="nav">
+
+    <div class="container">
+
+        <ul class="list" id="navList">
+
+            <li>
+
+                <a href="{:U('index/index')}">首页</a>
+
+            </li>
+
+            <!-- <volist name="goods_category_tree" id="v" key="kr"> -->
+
+            <if condition="$v[level] eq 1">
+
+            <li >
+
+                <a href="{:U('Home/Goods/goodsList',array('id'=>$v[id]))}" title="{$v[name]}">{$v[name]}</a>
+
+                </if>
+
+                <div class="son-menu clearfix">
+
+                    <div class="son-menu-cate fl">
+
+                        <div class="title">品类</div>
+
+                        <div class="list">
+
+                            <foreach name="v['tmenu']" key="k2" item='v2'>
+
+                            <if condition="$v2[parent_id] eq $v['id']">
+
+                            <a href="{:U('Home/Goods/goodsList',array('id'=>$v2[id]))}" target="_blank">{$v2[name]}</a>
+
+                            </if>
+
+                            </foreach>
+
+                        </div>
+
+                    </div>
+
+                    <div class="son-menu-brand fr">
+
+                        <div class="title">品牌</div>
+
+                        <div class="brand-list">
+
+                            <div class="scroll-list-btn">
+
+                               <a class="food-brand-list-up" href="javascript:;"><i class="iconfont brand-icon-up"><img src="__STATIC__/images/brand-icon.png" alt=""></i></a>
+
+                            </div>
+
+                            <div class="food-sub-menu-scroll">
+
+                                <div class="content swiper-wrapper">
+
+                                    
+
+                                    <?php $ji = 1?>
+
+                                   <!-- <volist name="brand" id="vo" key="_keys">  -->
+
+
+
+                                    <!-- <if condition="$vo[parent_cat_id] eq $v[id]"> -->
+
+                                    <?php if($ji % 8 == 1){?>
+
+                                    <div class="list swiper-slide">
+
+                                    <?php }?>
+
+                                        <a href="{:U('Goods/goodsList',array('id'=>$v['id'],'brand_id'=>$vo[id]))}" style="height: 66px;">
+
+                                            <img src="{$vo[logo]}" alt="{$vo[name]}" width="100%" style="height: 40px;">
+
+                                            <p style="padding: 0;margin: 0;box-sizing: border-box;">{$vo[name]}</p>
+
+                                        </a>
+
+                                    <?php  if($ji % 8 == 0){?>
+
+                                    </div>
+
+                                    <?php } $ji++;?>
+
+                                    <!-- </if> -->
+
+
+
+                                    <?php  if($_keys == count($brand)){?>
+
+                                    </div>
+
+                                    <?php } ?>
+
+
+
+                                    <!-- </volist> -->
+
+                                    
+
+                            </div>
+
+                            
+
+                            
+
+                        </div>
+
+                        <div class="scroll-list-btn">
+
+                                <a class="food-brand-list-down" href="javascript:;"><i class="iconfont brand-icon-down"><img src="__STATIC__/images/brand-icon.png" alt=""></i></a>
+
+                            </div>
+
+                    </div>
+
+                </div>
+
+            </li>
+
+            <li>
+
+            <!-- </volist> -->
+
+            <li class="last">
+
+                <a href="{:U('Goods/timeLimitShop')}">限时购</a>
+
+            </li>
+
+        </ul>
+
+        <script type="text/javascript">
+
+        $('#navList a').each(function(){
+
+            if ($(this)[0].href==String(window.location)) {
+
+                $(this).parent().addClass('active');
+
+            }
+
+        });
+
+        </script>
+
+    </div>
+
+</nav>

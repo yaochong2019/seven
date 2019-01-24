@@ -1,0 +1,55 @@
+<div class="container">
+
+	<div class="member clearfix">
+
+		<div class="member-left">
+
+			<div class="title">我的账户</div>
+
+			<div class="list">
+
+				<div class="item">
+
+					<a   href="{:U('Order/order_list')}" <if condition="$_controller eq 'order' and $_action eq 'order_list'">   class="active" </if> >我的订单</a>
+
+				</div>
+
+				<div class="item">
+
+					<a href="{:U('Cart/index')}" <if condition="$_controller eq 'cart' and $_action eq 'index'">   class="active" </if>>购物车</a>
+
+				</div>
+
+				<div class="item">
+
+					<a href="{:U('User/index')}" <if condition="$_controller eq 'user' and $_action eq 'index'">   class="active" </if>>账户信息</a>
+
+				</div>
+				<div class="item">
+
+					<a href="{:U('User/address')}" <if condition="$_controller eq 'user' and $_action eq 'address'">   class="active" </if>>收货地址</a>
+
+				</div>
+				<div class="item">
+
+					<a href="#">联系客服</a>
+
+				</div>
+
+				<!-- <div class="item">
+
+					<a href="{:U('article/articleList')}" <if condition="$_controller eq 'article' and $_action eq 'articleList'">   class="active" </if>>资料</a>
+
+				</div>
+
+				<div class="item">
+
+					<a href="{:U('/Home/Article/detail/article_id/28')}" <if condition="$_controller eq 'article' and $_action eq 'articleList'">   class="active" </if>>我们</a>
+
+				</div> -->
+
+
+
+			</div>
+
+		</div>

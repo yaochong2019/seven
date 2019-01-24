@@ -1,0 +1,19 @@
+<!-- <volist name="lists" id="vo"> -->
+<div class="product-item">
+    <a href="{:U('Goods/goodsInfo',array('id'=>$vo[goods_id]))}">
+        <div class="img">
+            <img src="{$vo.original_img}" alt="">
+        </div>
+        <div class="product-name">
+            {$vo.goods_name}
+        </div>
+        <div class="product-handle">
+            <span class="price">$<i>{$vo.cx_price}</i></span>
+            <!-- <span class="old-price">${$vo.shop_price}</span> -->
+            <div class="add-cart">
+                <button data-id="1" class="addCartBtn">加入购物车</button>
+            </div>
+        </div>
+    </a>
+</div>
+<!-- </volist>

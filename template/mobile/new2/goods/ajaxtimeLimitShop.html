@@ -1,0 +1,17 @@
+<!-- <volist name="lists" id="vo"> -->
+<div class="am-u-sm-6 am-u-md-4 item" onclick="location.href='{:U('Goods/goodsInfo',array('id'=>$vo[goods_id]))}'">
+    <div class="pro-img">
+        <img src="{$vo.original_img}" />
+    </div>
+    <div class="pro-intro">
+        {$vo.html}
+        <span class="price">
+             <i>¥</i>{$vo.cx_price}
+        </span>
+        <span class="add">
+            加入购物车
+        </span>
+        <input type="number" min="1" max="50" value="1">
+    </div>
+</div>
+<!-- </volist> -->

@@ -1,0 +1,76 @@
+<!-- 顶部 -->
+
+<include file="public/header"/>
+
+<!-- 顶部 -->
+
+
+
+
+
+
+
+ <include file="public/left"/>
+
+
+
+
+
+ <!-------------------------------- 特色产品 -------------------------------------->
+
+<div class="pro-square" id="carousel">
+
+    <h2 class="pro-head">
+
+        搜索结果
+
+    </h2>
+
+    <!-- <volist name="goods_list" id="rg"> -->
+
+    <div class="am-u-sm-6 am-u-md-4 item">
+
+        <div class="pro-img" onclick="location.href='{:U('Goods/goodsInfo',array('id'=>$rg[goods_id]))}'">
+
+            <img src="{$rg[goods_id]|goods_thum_images=200,200}" />
+
+        </div>
+
+        <div class="pro-intro">
+
+            <p>{$rg[goods_name]|getSubstr=0,15}</p>
+
+            <span class="price">
+
+                 <i>¥</i>{$rg[shop_price]}
+
+            </span>
+
+            <span class="add"  onclick="AjaxAddCart({$rg[goods_id]},$('#num_'+{$rg[goods_id]}).val());">
+
+                加入购物车
+
+            </span>
+
+            <input type="number" min="1" max="50" value="1" id="num_{$rg[goods_id]}">
+
+        </div>
+
+    </div>
+
+    <!-- </volist> -->
+
+    
+
+</div>
+
+
+
+<!-- 底部 -->
+
+<include file="public/footer"/>
+
+<!-- 底部 -->
+
+
+

@@ -1,0 +1,85 @@
+
+
+<if condition="$address_list neq 0">
+
+<foreach name="address_list" item="v"  key="k">
+
+<if condition="$v[is_default] eq 1"> <!--默认选中的地址-->
+
+    <tr class="address_current">
+
+        <td class="select-address"><input type="radio" class="check-classic" data-province-id="{$v[province]}" data-city-id="{$v[city]}" data-district-id="{$v[district]}" onclick="swidth_address(this);" name="address_id" value="{$v[address_id]}" checked="checked"/></td>
+
+        <td>{$v[consignee]}</td>
+
+        <td>{$regionList[$v[province]]} {$regionList[$v[city]]} {$regionList[$v[district]]}</td>
+
+        <td class="text-left">{$regionList[$v[twon]]} {$v[address]}</td>
+
+        <td>{$v[mobile]}</td>
+
+        <td>
+
+            <a class="edit-address" title="编辑" style="cursor:pointer;" onclick="add_edit_address({$v[address_id]});">
+
+            <i class="iconfont icon-edit"></i> 编辑</a>
+
+            <a class="delete-address" title="删除" style="cursor:pointer;" onclick="del_address({$v[address_id]});"><i class="iconfont icon-delete">
+
+            </i> 删除</a>
+
+        </td>
+
+        <td>
+
+            <span>默认地址</span>
+
+        </td>
+
+    </tr>
+
+<else/>
+
+    <tr>
+
+        <td class="select-address"><input type="radio" class="check-classic" data-province-id="{$v[province]}" data-city-id="{$v[city]}" data-district-id="{$v[district]}" onclick="swidth_address(this);" name="address_id" value="{$v[address_id]}" checked="checked"/></td>
+
+        <td>{$v[consignee]}</td>
+
+        <td>{$regionList[$v[province]]} {$regionList[$v[city]]} {$regionList[$v[district]]}</td>
+
+        <td class="text-left">{$regionList[$v[twon]]} {$v[address]}</td>
+
+        <td>{$v[mobile]}</td>
+
+        <td>
+
+            <a class="edit-address" title="编辑" style="cursor:pointer;" onclick="add_edit_address({$v[address_id]});">
+
+            <i class="iconfont icon-edit"></i> 编辑</a>
+
+            <a class="delete-address" title="删除" style="cursor:pointer;" onclick="del_address({$v[address_id]});"><i class="iconfont icon-delete">
+
+            </i> 删除</a>
+
+        </td>
+
+        <td>
+
+            <a class="set-default-address" >默认地址</a>
+
+        </td>
+
+    </tr>
+
+</if>
+
+ </foreach>
+
+<else />
+
+    <td></td><td></td><td></td><td style="color: red;">您还没有添加收货地址！</td><td></td><td></td><td></td>
+
+</if>
+
+<script type="text/javascript">$(":radio").labelauty({ label: false });</script>

@@ -1,0 +1,3 @@
+<?php
+//000000000001[{"id":28,"name":"\u65b0\u65af\u79d1\u820d","parent_cat_id":4,"logo":"\/public\/upload\/brand\/2019\/01-21\/a96042d489e01ea37c5209cfc48228c0.jpg","is_hot":0},{"id":27,"name":"E3\u6d3b\u529b-E3live","parent_cat_id":4,"logo":"\/public\/upload\/brand\/2019\/01-07\/7f2157c851098e8a767d20a49de2172d.png","is_hot":0},{"id":25,"name":"OZNATURAL","parent_cat_id":5,"logo":"\/public\/upload\/brand\/2018\/08-21\/876b9a7937c1a27d483c47d22dfb5bee.jpg","is_hot":0},{"id":26,"name":"\u671d\u9633\u6709\u673a\u8336","parent_cat_id":1,"logo":"\/public\/upload\/brand\/2019\/01-03\/0042b2434741a833ee1cb785a969488b.jpg","is_hot":0}]
+?>

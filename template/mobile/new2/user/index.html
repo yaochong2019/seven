@@ -1,0 +1,227 @@
+
+
+<include file="public/header"/>
+
+<!-- 顶部 -->
+
+
+
+
+
+<!-------------------------------- header部分 -------------------------------------->
+
+<header id="header-simple"
+
+        data-am-widget="header"
+
+        class="am-header am-header-default">
+
+    <div class="am-header-left am-header-nav">
+
+        <a href="javascript:history.go(-1)" class="">
+
+            <i class="am-header-icon am-icon-angle-left" style="font-size: 2.2rem;"></i>
+
+        </a>
+
+    </div>
+
+    <h1 class="am-header-title">
+
+        个人中心
+
+    </h1>
+
+</header>
+
+<div class="bottomPlaceholder"></div>
+
+<div class="personal">
+
+    <div class="person-info">
+
+        <a href="{:U('userinfo')}">
+
+            <div class="person-info-head">
+
+                <img src="{$user.head_pic|default='__STATIC__/imgs/user68.jpg'}" width="80">
+
+            </div>
+
+            <ul>
+
+                <li class="name">{$user.nickname}</li>
+
+                <li class="number">账号：{$user.username}</li>
+
+                <!-- <li class="balance">余额：<span> {$user.user_money}元 </span></li> -->
+
+            </ul>
+
+        </a>
+
+        <a href="{:U('userinfo')}" class="am-icon-angle-right"></a>
+
+    </div>
+
+
+
+    <div class="person-order">
+
+        <div class="more-title">
+
+            我的订单 <a href="{:U('Mobile/Order/order_list')}">更多 <i class="am-icon-angle-right"></i></a>
+
+        </div>
+
+        <div class="item">
+
+            <a href="{:U('/Mobile/Order/order_list',array('type'=>'WAITPAY'))}">
+
+                <span class="item-img"><i class="tip">{$user.waitPay}</i></span>
+
+                <span class="item-des">待付款</span>
+
+            </a>
+
+        </div>
+
+        <div class="item">
+
+            <a href="{:U('/Mobile/Order/order_list',array('type'=>'WAITSEND'))}">
+
+                <span class="item-img"><i class="tip">{$user.waitSend}</i></span>
+
+                <span class="item-des">待发货</span>
+
+            </a>
+
+        </div>
+
+        <div class="item">
+
+            <a href="{:U('/Mobile/Order/order_list',array('type'=>'WAITSEND'))}">
+
+                <span class="item-img"><i class="tip">{$user.waitReceive}</i></span>
+
+                <span class="item-des">待收货</span>
+
+            </a>
+
+        </div>
+
+        <div class="item">
+
+            <a href="{:U('Mobile/Order/comment',array('status'=>0))}">
+
+                <span class="item-img"><i class="tip">{$user.uncomment_count}</i></span>
+
+                <span class="item-des">待评价</span>
+
+            </a>
+
+        </div>
+
+    </div>
+
+
+
+    <div class="person-multi">
+
+        <!-- <a href="{:U('balance')}">
+
+            我的余额
+
+        </a> -->
+
+        <a href="{:U('collect')}">
+
+            我的收藏
+
+        </a>
+
+        <!-- <a href="{:U('fenxiao')}">
+
+            我的分销
+
+        </a>
+
+        <a href="{:U('distribution')}">
+
+            分销介绍
+
+        </a> -->
+
+        <a href="{:U('article/articleList')}">
+
+            资料库
+
+        </a>
+
+        <a href="{:U('/mobile/article/detail/article_id/28')}">
+
+            关于我们
+
+        </a>
+
+        <a href="{:U('/mobile/cart/index')}">
+
+            购物车
+
+        </a>
+
+        <!-- <a href="../about/customerService.html">
+
+            客服留言
+
+        </a> -->
+
+    </div>
+    <if condition="$user.user_id neq null"
+    <div class="person-info">
+        <a href="{:U('user/logout')}" class="am-btn am-btn-default" style="width: 100%">退出登录</a>
+    </div>
+    </if>
+</div>
+
+
+
+
+
+<!-------------------------------- 二维码 -------------------------------------->
+
+
+
+<div class="am-modal am-modal-no-btn hide" tabindex="-1" id="qr-modal">
+
+    <div class="am-modal-dialog">
+
+        <div class="am-modal-hd">
+
+            <a href="javascript: void(0)" class="am-close am-close-spin" data-am-modal-close>&times;</a>
+
+        </div>
+
+        <div class="am-modal-bd">
+
+            <img class="qrcode" src="__STATIC__/imgs/personal/qrcode.png" />
+
+            <p>爱酒人士最爱酒类</p>
+
+            <p class="des">西班牙原瓶进口红酒桑德拉甜红起泡酒葡萄酒</p>
+
+            <img class="bg" src="__STATIC__/imgs/personal/qr_bg.png" alt="">
+
+        </div>
+
+    </div>
+
+</div>
+
+
+
+<!-- 底部 -->
+
+<include file="public/footer2"/>
+
+<!-- 底部

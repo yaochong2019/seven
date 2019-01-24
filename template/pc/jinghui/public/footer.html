@@ -1,0 +1,115 @@
+<!--product advantage-->
+
+<div class="container">
+
+    <div class="advantage clearfix">
+
+        <div class="item">
+
+            <div class="icon icon1"></div>
+
+            <div class="text">
+
+                <div class="s1">商品保障</div>
+
+                <div class="s2">海外自采 海关监管</div>
+
+            </div>
+
+        </div>
+
+        <div class="item">
+
+            <div class="icon icon2"></div>
+
+            <div class="text">
+
+                <div class="s1">低价保障</div>
+
+                <div class="s2">全新模式 性价比最高</div>
+
+            </div>
+
+        </div>
+
+        <div class="item">
+
+            <div class="icon icon3"></div>
+
+            <div class="text">
+
+                <div class="s1">速度保障</div>
+
+                <div class="s2">最快2小时出仓</div>
+
+            </div>
+
+        </div>
+
+        <div class="item">
+
+            <div class="icon icon4"></div>
+
+            <div class="text">
+
+                <div class="s1">退货保障</div>
+
+                <div class="s2">直接退货到国内地址</div>
+
+            </div>
+
+        </div>
+
+    </div>
+</div>
+    <!--footer-->
+<div class="container" style="max-width:none;padding:0;">
+<footer class="footer">
+
+    <div id="foot">
+
+        <p class="p" style="margin-bottom: 20px;font-size:15px; ">
+
+        <a href="{:U('/Home/Article/detail/article_id/28')}">关于我们</a><span>|</span>
+
+              <a href="{:U('/Home/Article/detail/article_id/37')}">服务条款</a><span>|</span>
+
+              <a href="{:U('/Home/Article/detail/article_id/30')}">免责声明</a><span>|</span>
+
+              <a href="{:U('/Home/Article/detail/article_id/31')}">隐私声明</a><span>|</span>
+
+              <a href="{:U('/Home/Article/detail/article_id/32')}">帮助中心</a><span>|</span>
+              
+              <a href="{:U('/Home/Content/index')}">联系我们</a><span>|</span>
+
+            <tpshop sql="select * from `__PREFIX__article` where cat_id = 5 and is_open=1" key="k" item='v'>
+
+                <a href="{:U('Home/Article/detail',array('article_id'=>$v[article_id]))}">{$v[title]}</a>
+
+                <span>|</span>
+
+            </tpshop>
+
+        </p>
+
+        <div>
+
+        <p class="p">
+
+        服务热线：{$tpshop_config['shop_info_phone']}&nbsp&nbsp 邮箱：contact@pure-seven.com&nbsp&nbsp
+
+        </p>
+        <script>
+			var myDate = new Date();
+			var nowyear = myDate.getFullYear();
+		</script>
+		
+        <p class="p copyright">Copyright&nbsp@&nbsp2018 浙江净会电子商务有限公司&nbsp{$tpshop_config['shop_info_record_no']}</p>
+
+        </div>
+
+
+</footer>
+</div>
+
+

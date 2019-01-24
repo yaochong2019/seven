@@ -1,0 +1,228 @@
+<!-------------------------------- header部分 -------------------------------------->
+
+ <div id="header">
+
+     <a href="/"><img src="__STATIC__/imgs/logo.png"></a>
+
+  </div>
+
+ <header id="subHeader" data-am-widget="header" class="am-header am-header-default">
+    <style>
+        .shopi{
+    background: #c9102c;
+    font-style: normal;
+    color: #fff;
+    position: absolute;
+    right: 5px;
+    display: block;
+    top: 6px;
+    width: 15px;
+    border-radius: 50%;
+    font-size: 12px;
+    height: 15px;
+    text-align: center;
+    line-height: 15px;}
+    </style>
+     <div class="am-header-left am-header-nav" onclick="$('.am-offcanvas-sub').hide();">
+
+         <a href="javascript:void(0)" class="" data-am-offcanvas="{target: '#header-side', effect: 'push'}"></a>
+
+     </div>
+
+     <div class="am-header-title">
+
+     <form action="{:U('Goods/search')}">
+
+         <input type="text" name="q" value="{$filter_param['q']}">
+
+         <div <if condition="$filter_param['q'] neq null"> style="display:none" </if> class="title-mask">
+
+            <i class="am-icon-search"></i>请输入相关商品
+
+        </div>
+
+    </form>
+
+     </div>
+
+     <div class="am-header-right am-header-nav">
+
+         <a href="{:U('cart/index')}" class=""><i class="shopi" id="tp_cart_info">{$car_num}</i></a>
+        <script type="text/javascript">
+        $(document).ready(function () {
+        
+        });
+            //ajax请求购物车列表
+            function ajax_header_cart(){
+                var cart_cn = getCookie('cn');
+                if (cart_cn == '') {
+                    $.ajax({
+                        type: "GET",
+                        url: "/index.php?m=Home&c=Cart&a=header_cart_list",//+tab,
+                        success: function (data) {
+                            cart_cn = getCookie('cn');
+                        }
+                    });
+                }
+                $('#tp_cart_info').html(cart_cn);
+            }
+        </script>
+     </div>
+
+ </header>
+
+<!-------------------------------- 侧边栏内容 -------------------------------------->
+
+ <div id="header-side" class="am-offcanvas">
+
+     <div class="am-offcanvas-bar">
+
+         <div class="am-offcanvas-content">
+
+             <p>欢迎您的使用</p>
+
+             <!-- <if condition="$user_id neq null"> -->
+
+             <span><a href="{:U('user/logout')}">退出登录</a></span>
+
+             <!-- <else /> -->
+
+             <span> <a href="{:U('user/login')}">登录</a> </span>
+
+             <!-- </if> -->
+            <!--<if condition="$uname eq null">-->
+             <h3>BATTLE GROUND</h3>
+            <!--<else />-->
+            <h3>{$uname}</h3>
+            <!--</if>-->
+             <ul class="am-list am-list-static am-list-border">
+
+             <!-- <volist name="goods_category_tree" id="v" key="kr"> -->
+
+             <!-- <if condition="$v[level] eq 1"> -->
+
+                 <li class="content-first" onclick="$('.am-offcanvas-sub').hide();$('.top_tab_{$v.id}').show();" >{$v[name]} <i class="am-icon-sm am-icon-angle-right"></i></li>
+
+             <!-- </if> -->
+
+             <!-- </volist> -->
+
+                 
+
+             </ul>
+
+             <div class="placeholder"></div>
+
+             <ul class="am-list am-list-static am-list-border">
+
+                 <li ><a href="{:U('article/articleList')}">资料库<i class="am-icon-sm am-icon-angle-right"></i></a></li>
+
+                 <li ><a href="{:U('/mobile/article/detail/article_id/28')}">关于我们<i class="am-icon-sm am-icon-angle-right"></i></a></li>
+
+             </ul>
+
+         </div>
+
+         <!-- <volist name="goods_category_tree" id="v" key="kr"> -->
+
+         <div class="am-offcanvas-sub hide top_tab_{$v.id}">
+
+            <h2 class="sub-header">
+
+                <i class="am-icon-sm am-icon-angle-left" onclick="$('.am-offcanvas-sub').hide();"></i>
+
+                <!-- <if condition="$v[level] eq 1"> -->
+
+                {$v[name]}
+
+                <!-- </if> -->
+
+            </h2>
+
+             <ul class="am-list am-list-static am-list-border">
+
+                 <li><a href="{:U('Goods/goodsList',array('id'=>$v[id]))}">选购全部  {$v[name]} <i class="am-icon-sm am-icon-angle-right"></i></a></li>
+
+                 <li class="title">品类 </li>
+
+                 <!-- <foreach name="v['tmenu']" key="k2" item='v2'> -->
+
+                 <!-- <if condition="$v2[parent_id] eq $v['id']"> -->
+
+                 <li> <a href="{:U('Goods/goodsList',array('id'=>$v2[id]))}"> {$v2[name]}<i class="am-icon-sm am-icon-angle-right"></i></a></li>
+
+                 <!-- </if> -->
+
+                <!-- </foreach> -->
+
+                 
+
+             </ul>
+
+             <ul class="am-list am-list-static am-list-border">
+
+                 <li class="title">品牌 </li>
+
+                 <!-- <volist name="brand" id="vo"> -->
+
+                <!-- <if condition="$vo[parent_cat_id] eq $v[id]"> -->
+
+                 <li> <a href="{:U('Goods/goodsList',array('id'=>$v['id'],'brand_id'=>$vo[id]))}"> <img src="__STATIC__/imgs/brand_ala.png" />{$vo[name]}<i class="am-icon-sm am-icon-angle-right"></i></a></li>
+
+             	<!-- </if> -->
+
+                <!-- </volist> -->
+
+             </ul>
+
+         </div>
+
+         <!-- </volist> -->
+
+
+
+
+
+         <!-- <volist name="country" id="v" key="kr"> -->
+
+         <div class="am-offcanvas-sub hide cou_tab_{$v.id}">
+
+            <h2 class="sub-header">
+
+                <i class="am-icon-sm am-icon-angle-left" onclick="$('.am-offcanvas').click()"></i>
+
+                {$v[name]}
+
+            </h2>
+
+             <ul class="am-list am-list-static am-list-border">
+
+                 
+
+                 <!-- <foreach name="v['tmenu']" key="k2" item='v2'> -->
+
+                 <!-- <if condition="$v2[parent_id] eq $v['id']"> -->
+
+                 <li><a href="{:U('Goods/country',array('id'=>$v2[id]))}">{$v2[name]}<i class="am-icon-sm am-icon-angle-right"></i></a></li>
+
+                 <!-- </if> -->
+
+                <!-- </foreach> -->
+
+                 
+
+             </ul>
+
+             
+
+         </div>
+
+         <!-- </volist> -->
+
+
+
+
+
+     </div>
+
+ </div>

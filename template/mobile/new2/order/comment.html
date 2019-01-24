@@ -1,0 +1,131 @@
+<!-- 顶部 -->
+
+<include file="public/header"/>
+
+<!-- 顶部 -->
+
+
+
+
+
+<!-------------------------------- header部分 -------------------------------------->
+
+<header id="header-simple"
+
+        data-am-widget="header"
+
+        class="am-header am-header-default">
+
+    <div class="am-header-left am-header-nav">
+
+        <a href="javascript:history.go(-1)" class="">
+
+            <i class="am-header-icon am-icon-angle-left" style="font-size: 2.2rem;"></i>
+
+        </a>
+
+    </div>
+
+    <h1 class="am-header-title">
+
+    评论列表
+
+    </h1>
+
+</header>
+
+<div class="bottomPlaceholder"></div>
+<div class="person-order">
+    <div class="swiper-container">
+        <div class="swiper-wrapper">
+            <div class="swiper-slide <if condition='$Request.param.status eq -1'> active</if>" style="width: 30%;">
+                <a href="{:U('Mobile/Order/comment',array('status'=>-1))}">全部评价</a>
+            </div>
+            <div class="swiper-slide <if condition='$Request.param.status eq 0'>active</if>" style="width: 30%;">
+                <a href="{:U('Mobile/Order/comment',array('status'=>0))}">待评价</a>
+            </div>
+            <div class="swiper-slide <if condition='$Request.param.status eq 1'>active</if>" style="width: 30%;">
+                <a href="{:U('Mobile/Order/comment',array('status'=>1))}">已评价</a>
+            </div>
+        </div>
+    </div>
+
+    <!--<if condition="empty($comment_list)">-->
+        <div class="nonenothing" style="height: 300px;">
+            <p>抱歉未查到数据！
+            <a href="{:U('Mobile/Index/index')}">去逛逛</a>
+            </p>
+        </div>
+    <!--<else/>-->
+    <div class="pro-list order-list">
+    <!--<foreach name="comment_list" item="v1">-->
+        <div class="item">
+            <div class="item-pro">
+                <div class="pro-item">
+                    
+                    <div class="pro-l">
+                        <img src="{$v1[goods_id]|goods_thum_images=200,200}">
+                    </div>
+                    <div class="pro-r">
+                        <ul>
+                            <li class="title">
+                                <a href="{:U('Goods/goodsInfo',array('id'=>$v1[goods_id]))}">{$v1[goods_name]}</a>
+                            </li>
+                            <li class="number">
+                                购买时间：{$v1.add_time|date='Y-m-d H:i',###}
+                            </li>
+                            
+                        </ul>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="item-btn">
+
+                <!--<if condition="$v1[is_comment] eq 0">-->
+                <a class="am-btn am-btn-sm success" href="{:U('Mobile/Order/add_comment',array('rec_id'=>$v1[rec_id]))}">评价订单</a>
+                <!--<else/>-->
+                <a class="am-btn am-btn-sm error" href="{:U('Mobile/Order/order_detail',array('id'=>$v1[order_id]))}">查看订单</a>
+                <!--</if>-->
+                
+            </div>
+        </div>
+        <!--</foreach>-->
+    </div>
+    <!--</if>-->
+
+</div>
+<!-- 底部 -->
+
+<include file="public/footer"/>
+
+<!-- 底部 -->
+<script src="__STATIC__/js/jquery.min.js"></script>
+<script src="__STATIC__/amaze/js/amazeui.min.js"></script>
+<script src="__STATIC__/amaze/js/amazeui.swiper.min.js"></script>
+<script src="__STATIC__/js/index.js"></script>
+<script src="__STATIC__/layer_mobile/layer.js"></script>
+<script type="text/javascript" src="__STATIC__/js/sourch_submit.js"></script>
+<script type="text/javascript">
+    /**
+     * ajax加载更多商品
+     */
+    var  page = 1;
+    function ajax_sourch_submit()
+    {
+        ++page;
+        $.ajax({
+            type : "GET",
+            url:"/index.php?m=Mobile&c=Order&a=comment&is_ajax=1&status={$Request.param.status}&p="+page,
+            success: function(data) {
+                if ($.trim(data) == '') {
+                    $('#getmore').hide();
+                    return false;
+                } else {
+                    $('.maleri30').append(data);
+                }
+            }
+        });
+    }
+</script>

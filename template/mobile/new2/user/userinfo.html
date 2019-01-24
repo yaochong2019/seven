@@ -1,0 +1,197 @@
+<!-- 顶部 -->
+<include file="public/header"/>
+<!-- 顶部 -->
+
+
+<!-------------------------------- header部分 -------------------------------------->
+<header id="header-simple"
+        data-am-widget="header"
+        class="am-header am-header-default">
+    <div class="am-header-left am-header-nav">
+        <a href="javascript:history.go(-1)" class="">
+            <i class="am-header-icon am-icon-angle-left" style="font-size: 2.2rem;"></i>
+        </a>
+    </div>
+    <h1 class="am-header-title">
+        账户信息
+    </h1>
+</header>
+<div class="bottomPlaceholder"></div>
+
+<div class="personal">
+    <div class="user-info">
+        <div data-am-widget="titlebar" class="am-titlebar am-titlebar-default" >
+            <h2 class="am-titlebar-title ">
+                基本信息
+            </h2>
+
+            <nav class="am-titlebar-nav">
+                <a href="{:U('user/editBasicMessage')}" class="">更改信息 <i class="am-icon-angle-right"></i></a>
+            </nav>
+        </div>
+        <table class="am-table am-table-bordered  am-table-compact ">
+            <thead>
+            <tr>
+                <th>头像</th>
+                <th>账户名</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+            <form id="head_pic" method="post" enctype="multipart/form-data">
+                <td>
+                <div id="fileList">
+                    <img src="{$user.head_pic|default='__STATIC__/imgs/user68.jpg'}" width="auto" height="40" id="img">
+                    <input  type="file" accept="image/*" name="head_pic"  onchange="handleFiles(this)" style="display:none;">
+                </div>
+                </td>
+            </form>
+                <td style="padding:12px 0px">{$user.username}</td>
+            </tr>
+            </tbody>
+        </table>
+        <table class="am-table am-table-bordered  am-table-compact">
+            <thead>
+            <tr>
+                <th>姓名</th>
+                <th>手机号码</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{$user.nickname}</td>
+                <td>{$user.mobile}</td>
+            </tr>
+            </tbody>
+        </table>
+        <table class="am-table am-table-bordered am-table-compact ">
+            <thead>
+            <tr>
+                <th>电子邮箱</th>
+                <th>生日</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{$user.email}</td>
+                <td><php>if($user['birthday'] > 0):</php>{$user.birthday|date='Y-m-d',###}<php>endif;</php></td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="user-info">
+        <div data-am-widget="titlebar" class="am-titlebar am-titlebar-default" >
+            <h2 class="am-titlebar-title ">
+                安全信息
+            </h2>
+
+            <nav class="am-titlebar-nav">
+                <a href="{:U('user/editBasicMessage2')}" class="">更改信息 <i class="am-icon-angle-right"></i></a>
+            </nav>
+        </div>
+        <table class="am-table am-table-bordered  am-table-compact ">
+            <thead>
+            <tr>
+                <th>居住地</th>
+                <th>登录密码</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>{$user.my_address}</td>
+                <td>********</td>
+            </tr>
+            </tbody>
+        </table>
+        <table class="am-table am-table-bordered  am-table-compact">
+            <thead>
+            <tr>
+                <th>支付密码</th>
+                <th>绑定手机</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td><php>if($user['paypwd']):</php>******<php>else:</php>未设置<php>endif;</php></td>
+                <td>{:substr($user.mobile,0,3)}****{:substr($user.mobile,-4)}</td>
+            </tr>
+            </tbody>
+        </table>
+        <table class="am-table am-table-bordered am-table-compact ">
+            <thead>
+            <tr>
+                <th>保密信息</th>
+                <th>身份认证</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <td>已设置</td>
+                <td>已设置</td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+
+
+
+<!-- 底部 -->
+<include file="public/footer2"/>
+<!-- 底部 -->
+<script type="text/javascript">
+$('img').on('click', function() {
+    $(this).next('input[type=file]').trigger('click');
+})
+//显示上传照片
+window.URL = window.URL || window.webkitURL;
+function handleFiles(obj) {
+    fileList = document.getElementById("fileList");
+    var files = obj.files;
+    img = new Image();
+    if(window.URL){
+        img.src = window.URL.createObjectURL(files[0]); //创建一个object URL，并不是你的本地路径
+        img.width = 60;
+        img.height = 60;
+        img.onload = function(e) {
+            window.URL.revokeObjectURL(this.src); //图片加载后，释放object URL
+        }
+        if(fileList.firstElementChild){
+            fileList.removeChild(fileList.firstElementChild);
+        }
+        $('#fileList').find('img').remove();
+        fileList.appendChild(img);
+    }else if(window.FileReader){
+        //opera不支持createObjectURL/revokeObjectURL方法。我们用FileReader对象来处理
+        var reader = new FileReader();
+        reader.readAsDataURL(files[0]);
+        reader.onload = function(e){
+            img.src = this.result;
+            img.width = 60;
+            img.height = 60;
+            $('#fileList').find('img').remove();
+            fileList.appendChild(img);
+        }
+    }else
+    {
+        //ie
+        obj.select();
+        obj.blur();
+        var nfile = document.selection.createRange().text;
+        document.selection.empty();
+        img.src = nfile;
+        img.width = 60;
+        img.height = 60;
+        img.onload=function(){
+
+        }
+        $('#fileList').find('img').remove();
+        fileList.appendChild(img);
+    }
+    //$('#asubmit').show();
+    //$('#logout').hide();
+    $('#head_pic').submit();
+}
+</script>

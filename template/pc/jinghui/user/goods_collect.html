@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <meta name="keyword" content="" />
+    <meta name="description" content="" />
+    <title>我的收藏</title>
+    <link rel="stylesheet" href="__STATIC__/css/normalize.css">
+    <link rel="stylesheet" href="__STATIC__/css/iconfont.css">
+    <link rel="stylesheet" href="__STATIC__/vendor/swiper/css/swiper.min.css">
+    <link rel="stylesheet" href="__STATIC__/vendor/jquery-labelauty/jquery-labelauty.css"><!--单选复选css-->
+    <link rel="stylesheet" href="__STATIC__/css/main.css">
+    <script src="__PUBLIC__/js/pc_common.js"></script>
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="__STATIC__/vendor/html5shiv.min.js"></script>
+    <script src="__STATIC__/vendor/respond.min.js"></script>
+    <script>
+        alert("您的浏览器版本过低请升级！");
+        location.href = "http://outdatedbrowser.com/zh-cn";
+    </script>
+    <![endif]-->
+</head>
+<body>
+<include file="public/header"/>
+<!--member-->
+<include file="public/left_nav"/>
+        <div class="member-right">
+            <div class="title clearfix">
+                <span>
+                <a href="{:U('Order/order_list')}">我的订单</a>
+                </span>
+                <span><a href="" class="active" style="color:#227dc1;">我的收藏</a></span>
+            </div>
+            <div class="order-list" style="margin-top: 20px;">
+                <if condition="!empty($lists)">
+                    <table class="table order-head">
+                        <tr style="height: 40px;">
+                            <td width="120"></td>
+                            <td width="200">商品</td>
+                            <td width="120">单价</td>
+                            
+                            
+                            <td width="120">库存</td>
+                            <td width="100">操作</td>
+                        </tr>
+                    </table>
+                    <div class="order-list-item">
+                        <volist name="lists" id="list">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th width="120">
+                                        <div class="product-from">郑州保税仓{$store_list[$list[store_id]][store_name]}</div>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tr>
+                                    <td width="120">
+                                        <a href="{:U('Home/Goods/goodsInfo',array('id'=>$list['goods_id']))}">
+                                            <img src="{$list.goods_id|goods_thum_images=100,100}" width="100" height="100">
+                                        </a>
+                                    </td>
+                                    <td width="200" style="padding:0;">        
+                                        {$list.goods_name}
+                                    </td>
+                                    <td width="120" style="padding:0;"><span><em>￥</em>{$list.shop_price}</span></td>
+                                    <td width="120" style="padding:0;">  
+                                        <span>
+                                             <if condition="$list['is_on_sale'] eq 0">已下架
+                                             <elseif condition="$list['store_count'] eq 0">商品已售罄<else/>库存充足</if>
+                                        </span>
+                                    </td>
+                                    <td width="100" style="padding:0;"> 
+                                        <if condition="$list.is_virtual eq 1">
+                                            <a href="{:U('Home/Goods/goodsInfo',array('id'=>$list['goods_id']))}">查看详情</a>
+                                            <else/>
+                                            <a class="btn btn-primary" onclick="AjaxAddCart({$list[goods_id]},1);">加入购物车</a>
+                                        </if>
+                                        <a onclick="del_all({$list[collect_id]})" href="javascript:">删除</a>
+                                    </td>
+                                </tr>
+                            </table>
+                        </volist>
+                    </div>
+                <else/>
+                    <div style="width: 100%;height: 300px;margin: 20px auto;text-align: center;line-height: 300px;">
+                        暂时还没有订单！
+                    </div>
+                </if>
+                </div>
+                <div>
+                    {$page}
+                </div>
+            </div>
+        </div>
+<!--footer-->
+<include file="public/footer"/>
+<script src="__STATIC__/vendor/jquery.min.js"></script>
+<script src="__STATIC__/vendor/swiper/js/swiper.min.js"></script>
+<script src="__STATIC__/vendor/layer/layer.js"></script>
+<script src="__STATIC__/vendor/jquery-labelauty/jquery-labelauty.js"></script><!--单选复选美化插件-->
+<script src="__STATIC__/js/main.js"></script>
+<script type="text/javascript">
+    function del_all(del_ids)
+            {
+                //询问框
+                layer.confirm('您确定要取消收藏', {
+                    btn: ['确定','取消'] //按钮
+                }, function(){
+                    window.location.href='/index.php?m=Home&c=User&a=del_goods_collect&id='+del_ids;
+                });
+
+            }
+</script>
+</body>
+</html>

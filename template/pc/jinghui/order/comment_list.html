@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta name="renderer" content="webkit" />
+	<meta name="keyword" content="" />
+	<meta name="description" content="" />
+	<title>评论发表</title>
+	<link rel="stylesheet" href="__STATIC__/css/normalize.css">
+	<link rel="stylesheet" href="__STATIC__/css/iconfont.css">
+	<link rel="stylesheet"  href="__STATIC__/vendor/raty/jquery.raty.css"><!--评分css-->
+	<link rel="stylesheet" href="__STATIC__/css/main.css">
+	<script src="__PUBLIC__/js/global.js"></script>
+	<script src="__STATIC__/vendor/jquery.min.js"></script>
+	<script src="__STATIC__/vendor/layer/layer.js"></script>
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+	<script src="__STATIC__/vendor/html5shiv.min.js"></script>
+	<script src="__STATIC__/vendor/respond.min.js"></script>
+	<script>
+		alert("您的浏览器版本过低请升级！");
+		location.href = "http://outdatedbrowser.com/zh-cn";
+	</script>
+	<![endif]-->
+</head>
+<body>
+	<div class="publish-comment-page">
+		<div class="commodity-message">
+			<div class="left">
+				<div class="img"><img src="{$order_info['goods_id']|goods_thum_images=400,400}" alt=""></div>
+				<div class="evaluation commstargoods"></div>
+			</div>
+			<div class="right">
+				<div class="commodity-name">{$order_info.goods_name}</div>
+				<div class="price-message">
+					<div class="top">总价（不含运费）：<span class="order-price">${$order_info.goods_price}</span></div>
+					<!-- <div class="bottom">商品总计：￥{$order_info.total_amount}&nbsp;&nbsp;&nbsp;&nbsp;商品税费(不含运费税)：￥10.47</div> -->
+				</div>
+			</div>
+		</div>
+	<form method="post" id="add_comment" onsubmit="return false">
+        <input type="hidden" id="order_id" name="order_id" value="{$order_info.order_id}">
+        <input type="hidden" id="goods_id" name="goods_id" value="{$order_info.goods_id}">
+        <input type="hidden" name="order_prom_type"  value="{$order_info['order_prom_type']}">
+        <input type="hidden" id="function-hint" name="goods_rank" value="">
+        <input type="hidden" name="service_rank" value="3">
+        <input type="hidden" name="deliver_rank" value="3">
+		<div class="comment-cont" id="div_{$order_info.goods_id}">
+			<div class="text">
+				<textarea name="content" data-id="{$order_info.goods_id}" id="comment_content" placeholder="请输入你想要说的" maxlength="200"></textarea>
+			</div>
+			<div class="img-list clearfix m-imgshow" id="img_container">
+				<div class="list-item item-btn">
+					<a class="upload-btn">
+						<div class="icon">
+						<span class="btn-upload img_span" onclick="uploadimg('#div_{$order_info.goods_id}');" style="position: relative; z-index: 0; "><i class="iconfont icon-add"></i></span>
+						</div>
+						<div class="text">上传商品图片</div>
+					</a>
+				</div>
+			</div>
+		</div>
+		<div class="confirm">
+			<a class="btn btn-primary" id="confirmComment" href="javascript:;">发表评论</a>
+		</div>
+	</form>
+	</div>
+	<script src="__STATIC__/vendor/raty/jquery.raty.js"></script><!--评分插件-->
+	<script src="__STATIC__/js/main.js"></script>
+	<script>
+		
+        //评价
+        $('.evaluation').raty({
+            readOnly: false,
+            score: 0,
+            targetType: 'number',//类型选择，number是数字值，hint，是设置的数组值
+            hints:['糟糕','差劲','正常','良好','华丽'],
+            target    : '#function-hint',
+            path: '__STATIC__/vendor/raty/images/',
+            targetKeep: true
+        });
+
+		$("#confirmComment").on("click",function(){
+				//$("input[name=score]").val()  评分值
+				var comment_content = $('#comment_content').val();
+				var goods_rank = $('input[name="goods_rank"]').val();
+			    if(goods_rank == 0){
+					layer.msg("请评分");
+					return;
+				}
+
+				if(comment_content == ''){
+		            showErrorMsg('请输入评论内容');
+		            return false;
+		        }
+		        if(comment_content.length < 10){
+		            showErrorMsg('评论内容最少10个字符');
+		            return false;
+		        }
+		        //判断是否超过五个图片
+		        if($('.btn-upload').length > 6){
+		            showErrorMsg('最多只能上传5张图片');
+		            return false;
+		        }
+		        $.ajax({
+		            type: "POST",
+		            url: "{:U('Home/Order/add_comment')}",
+		            data: $('#add_comment').serialize(),
+		            success: function (data) {
+		                data = jQuery.parseJSON(data);
+		                if (data.status == 1) {
+		                    window.parent.location.href="{:U('Home/Order/comment',array('status'=>0))}";
+		                } else {
+		                    showErrorMsg(data.msg);
+		                    window.location.reload();
+		                }
+		            }
+		        });
+				return false;
+			})
+		//图片上传
+		    var now_access;
+		    function uploadimg(div){
+		        now_access = $(div);
+		        //检查是否超过限制数量
+		        GetUploadify2(5,'','comment','add_img')
+		    }
+		    function delimg(file,t){
+		        $.get(
+		                "/index.php?m=Admin&c=Uploadify&a=delupload",{action:"del", filename:file},function(res){
+		                	console.log(res)
+		                }
+		        );
+		        $(t).siblings('.img_span').show();
+		        $(t).remove();
+		    }
+		    function add_img(str){
+		        var div_id =  now_access.selector;
+		        var goods_id = div_id.substr(5);
+		        var tpl_list = String(str).split(',');
+		        for (var i=0;i<tpl_list.length;i++)
+		        {
+		            var tpl = '<div class="list-item" onclick="delimg(\'$IMG\',this)"><input type="hidden" name="comment_img[]" value="$IMG"><img src="$IMG" border="0" alt="" class="upload-img"><a class="remove-img" href="javascript:;""><i class="iconfont icon-close"></i></a></div>';
+		            var str_do = tpl.replace(/\$IMG/g,tpl_list[i]);
+		            $(now_access).find('#img_container').append(str_do);
+		        }
+		        //判断是否超过五个图片
+		        var obj = now_access.find('.btn-upload');
+		        if(obj.length >= 6){
+		            now_access.find('.img_span').hide();
+		        }
+		    }
+
+		    /**
+		     * 提示弹窗
+		     * */
+		    function showErrorMsg(msg){
+		        layer.alert(msg,{icon:3});
+		    }
+	</script>
+</body>
+</html>

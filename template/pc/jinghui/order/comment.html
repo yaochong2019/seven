@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="renderer" content="webkit" />
+    <meta name="keyword" content="" />
+    <meta name="description" content="" />
+    <title>我的评价</title>
+    <link rel="stylesheet" href="__STATIC__/css/normalize.css">
+    <link rel="stylesheet" href="__STATIC__/css/iconfont.css">
+    <link rel="stylesheet" href="__STATIC__/vendor/swiper/css/swiper.min.css">
+    <link rel="stylesheet" href="__STATIC__/vendor/jquery-labelauty/jquery-labelauty.css"><!--单选复选css-->
+    <link rel="stylesheet" href="__STATIC__/css/main.css">
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="__STATIC__/vendor/html5shiv.min.js"></script>
+    <script src="__STATIC__/vendor/respond.min.js"></script>
+    <script>
+        alert("您的浏览器版本过低请升级！");
+        location.href = "http://outdatedbrowser.com/zh-cn";
+    </script>
+    <![endif]-->
+    <style>
+        .red a{color: #227dc1}
+    </style>
+</head>
+<body>
+<include file="public/header"/>
+<!--member-->
+<include file="public/left_nav"/>
+        <div class="member-right">
+            <div class="title clearfix">
+                <span>
+                <a href="{:U('Order/order_list')}" class="<if condition="$Request.param.type eq ''">active</if>">我的订单</a>
+                </span>
+                <span class="<if condition="$Request.param.status neq '0' AND $Request.param.status neq '1'">red</if>">
+                    <a href="{:U('/Home/Order/comment')}">我的评价</a></span>
+                <span class="<if condition="$Request.param.status eq '0'">red<else/>mal-l</if>" style="font-size:14px;">
+                    <a href="{:U('/Home/Order/comment',array('status'=>0))}">待评价订单</a></span>
+                <span class="<if condition='$Request.param.status eq 1'>red<else/>mal-l</if>" style="font-size:14px;">
+                    <a href="{:U('/Home/Order/comment',array('status'=>1))}">已评价</a></span>
+            </div>
+            <div class="order-list" style="margin-top: 20px;">
+                <if condition="!empty($comment_list)">
+                    <table class="table order-head">
+                        <tr style="height: 40px;">
+                            <td width="120"></td>
+                            <td width="200">商品</td>
+                            <td width="120">价格</td>
+                            <td width="120">数量</td>
+                            <td width="200">实付款</td>
+                            <td width="120">交易状态</td>
+                            <td width="100">操作</td>
+                        </tr>
+                    </table>
+                    <div class="order-list-item">
+                        <volist name="comment_list" id="list">
+                            <table class="table">
+                                <thead>
+                                <tr>
+                                    <th width="120">
+                                        <div class="product-from">郑州保税仓{$store_list[$list[store_id]][store_name]}</div>
+                                    </th>
+                                    <th colspan="6" class="text-left">
+                                        <div class="order-msg">
+                                            订单号：{$list.order_sn}&nbsp;&nbsp;&nbsp;&nbsp;
+                                            下单时间：{$list.add_time|date='Y-m-d H:i:s',###}
+                                        </div>
+                                    </th>
+                                </tr>
+                                </thead>
+                                <tr>
+                                    <td width="120">
+                                        <a href="{:U('Home/Goods/goodsInfo',array('id'=>$list['goods_id']))}"><img src="{$list.goods_id|goods_thum_images=100,100}" width="100" height="100"></a>
+                                    </td>
+                                    <td width="200">        
+                                        <a href="{:U('Home/Goods/goodsInfo',array('id'=>$list['goods_id']))}">{$list.goods_name}</a>
+                                    </td>
+                                    <td width="120"><span>￥</span><span>{$list.member_goods_price}</span></td>
+                                    <td width="120">{$list.goods_num}</td>
+                                    <td width="120">
+                                        <p>
+                                        <span>￥</span>
+                                        <span>{$list.member_goods_price * $list.goods_num}</span>
+                                        </p>
+                                    </td>
+                                    <td width="120">  
+                                        <p><if condition="$list['is_comment'] eq 1">已评价<else/>未评价</if></p>
+                                    </td>
+                                    <td width="100"> 
+                                        <if condition="$list['is_comment'] eq 1">
+                                            <p><a href="{:U('Home/Goods/goodsInfo',array('id'=>$list['goods_id']))}">查看</a></p>
+                                            <else/>
+                                            <p><a href="{:U('Home/Order/comment_list',array('order_id'=>$list['order_id'],'rec_id'=>$list['rec_id']))}">评价</a></p>
+                                        </if>
+                                    </td>
+                                </tr>
+                            </table>
+                        </volist>
+                    </div>
+                <else/>
+                    <div style="width: 100%;height: 300px;margin: 20px auto;text-align: center;line-height: 300px;">
+                        暂时还没有订单！
+                    </div>
+                </if>
+                </div>
+                <div>
+                    {$page}
+                </div>
+            </div>
+        </div>
+<!--footer-->
+<include file="public/footer"/>
+<script src="__STATIC__/vendor/jquery.min.js"></script>
+<script src="__STATIC__/vendor/swiper/js/swiper.min.js"></script>
+<script src="__STATIC__/vendor/layer/layer.js"></script>
+<script src="__STATIC__/vendor/jquery-labelauty/jquery-labelauty.js"></script><!--单选复选美化插件-->
+<script src="__STATIC__/js/main.js"></script>
+<script type="text/javascript">
+    $(function(){//退货记录和申请退货切换
+        $('.clearfix span').click(function(){
+            $(this).addClass('red').siblings().removeClass('red');
+        })
+    })
+</script>
+</body>
+</html>

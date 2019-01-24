@@ -1,0 +1,237 @@
+<!-- 顶部 -->
+
+<include file="public/header"/>
+
+<!-- 顶部 -->
+
+
+
+
+
+<!-------------------------------- header部分 -------------------------------------->
+
+<header id="header-simple"
+
+        data-am-widget="header"
+
+        class="am-header am-header-default">
+
+    <div class="am-header-left am-header-nav">
+
+        <a href="javascript:history.go(-1)" class="">
+
+            <i class="am-header-icon am-icon-angle-left" style="font-size: 2.2rem;"></i>
+
+        </a>
+
+    </div>
+
+    <h1 class="am-header-title">
+    发表评论
+    </h1>
+
+</header>
+
+<div class="bottomPlaceholder"></div>
+<form id="add_comment" method="post" enctype="multipart/form-data">
+<input type="hidden" name="order_prom_type"  value="{$order_info['order_prom_type']}">
+<div class="person-comment" style="height: 450px;">
+    <div class="pro-list order-list comment-list" >
+        <div class="item">
+            <div class="item-btn">
+                <a class="am-btn am-btn-sm success" href="javascript:void(0);" onclick="return validate_comment();">提交</a>
+            </div>
+            <div class="item-pro">
+                <div class="pro-item">
+                    <div class="pro-l">
+                        <img src="{$order_goods.goods_id|goods_thum_images=100,100}">
+                    </div>
+                    <div class="pro-r">
+                        <ul>
+                            <li class="title">{$order_goods.goods_name}</li>
+                            <li class="weight">{$order_goods.spec_key_name}</li>
+                            <li class="jsstar" id="commentStars">
+                                <div>
+                                    <i class="am-icon-star-o" title="1"></i>
+                                    <i class="am-icon-star-o" title="2"></i>
+                                    <i class="am-icon-star-o" title="3"></i>
+                                    <i class="am-icon-star-o" title="4"></i>
+                                    <i class="am-icon-star-o" title="5"></i>
+                                </div>
+                                <input name="goods_rank" value="0" type="hidden">
+                                <input name="service_rank" value="3" type="hidden">
+                                <input name="deliver_rank" value="3" type="hidden">
+                                <span>¥{$order_goods.member_goods_price}</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="person-comment-text">
+        <textarea id="content_13" name="content" rows="3" placeholder="请输入相关评论..."></textarea>
+    </div>
+    <div class="person-comment-img">
+        <div class="z_file add file">
+            <input type="file" name="comment_img_file[]" id="file" value="" accept="image/*" multiple onchange="imgChange('person-comment-img','add');" />
+        </div>
+    </div>
+</div>
+<input type="hidden" name="order_id" value="{$order_goods.order_id}">
+<input type="hidden" name="goods_id" value="{$order_goods.goods_id}">
+</form>
+<div class="am-modal am-modal-confirm hide" tabindex="-1" id="my-confirm">
+    <div class="am-modal-dialog">
+        <div class="am-modal-hd">提示</div>
+        <div class="am-modal-bd">
+            确定要删除这个图片么？
+        </div>
+        <div class="am-modal-footer">
+            <span class="am-modal-btn" data-am-modal-cancel>取消</span>
+            <span class="am-modal-btn" data-am-modal-confirm>确定</span>
+        </div>
+    </div>
+</div>
+<!-- 底部 -->
+
+<include file="public/footer"/>
+
+<!-- 底部 -->
+<script src="__STATIC__/js/jquery.min.js"></script>
+<script src="__STATIC__/amaze/js/amazeui.min.js"></script>
+<script src="__STATIC__/amaze/js/amazeui.swiper.min.js"></script>
+<script src="__STATIC__/layer_mobile/layer.js"></script>
+<script src="__STATIC__/js/index.js"></script>
+<script>
+    /****************************评价start**********************************/
+    /*$('#commentStars').on('click',function(e){
+        var index = $(e.target).index(),i,
+            $i = $(this).find('i');
+        for(i=0;i<$i.length;i++){
+            (i<=index)?$($i[i]).removeClass('am-icon-star-o').addClass('am-icon-star'):$($i[i]).removeClass('am-icon-star').addClass('am-icon-star-o');
+        }
+    });*/
+    /****************************评价end************************************/
+
+    /****************************删除图片start**********************************/
+    $('.person-comment-img').on('click',function(e){
+        var $target = $(e.target),
+            $parent = $target.parent();
+        if($target.hasClass('z_addImg') || $parent.hasClass('z_addImg')){
+            $('#my-confirm').modal({
+                relatedTarget:this,
+                onConfirm:function(){
+                    if($target.hasClass('z_addImg')){
+                        $target.remove();
+                    }else if($parent.hasClass('z_addImg')){
+                        $parent.remove();
+                    }
+                },
+                onCancel:function(){}
+            })
+        }
+    })
+    /****************************删除图片end*********************************/
+    $(function(){
+        //评分
+        $('.am-icon-star-o').click(function(e){
+            var obj = $(this);
+            obj.attr('class','am-icon-star');
+            obj.prevAll().attr('class','am-icon-star').parent();
+            obj.nextAll().attr('class','am-icon-star-o');
+            obj.parent().nextAll('input').val(obj.attr('title'));
+        })
+    })
+
+    function validate_comment(){
+        var content = $("#content_13").val();
+        var goods_rank = $('input[name="goods_rank"]').val();
+        var error = [];
+        var img_num = 0;
+        var AllImgExt=".jpg|.jpeg|.gif|.bmp|.png|";//全部图片格式类型
+        //var title = document.getElementById("title").value;
+        $(".file input").each(function(index){
+            FileExt = this.value.substr(this.value.lastIndexOf(".")).toLowerCase();
+            if(this.value!=''){
+                img_num++;
+                if(AllImgExt.indexOf(FileExt+"|")==-1){
+                    error.push("您选择的图片格式错误!");
+                }
+            }
+        });
+        /*$(".jsstar input").each(function(index){
+            if(this.value == '0'){
+                if(this.name == 'goods_rank'){
+                    error.push('请给商品评分！');
+                };
+                if(this.name == 'service_rank'){
+                    error.push('请给服务评分！');
+                };
+                if(this.name == 'deliver_rank'){
+                    error.push('请给物流评分！');
+                };
+            }
+        });*/
+        if(content == ''){
+            error.push('评价内容不能为空！');
+        }else if(goods_rank == 0){
+            error.push('请给商品评分！');
+        }
+
+        if(error.length>0){
+            showErrorMsg(error);
+            return false;
+        }else{
+            $('#add_comment').submit();
+            return true;
+        }
+    }
+
+    //显示上传照片
+    /*window.URL = window.URL || window.webkitURL;
+    function handleFiles(obj,id) {
+        fileList = document.getElementById("fileList"+id);
+        var files = obj.files;
+        img = new Image();
+        if(window.URL){
+
+            img.src = window.URL.createObjectURL(files[0]); //创建一个object URL，并不是你的本地路径
+            img.width = 60;
+            img.height = 60;
+            img.onload = function(e) {
+                window.URL.revokeObjectURL(this.src); //图片加载后，释放object URL
+            }
+            if(fileList.firstElementChild){
+                fileList.removeChild(fileList.firstElementChild);
+            }
+            fileList.appendChild(img);
+        }else if(window.FileReader){
+            //opera不支持createObjectURL/revokeObjectURL方法。我们用FileReader对象来处理
+            var reader = new FileReader();
+            reader.readAsDataURL(files[0]);
+            reader.onload = function(e){
+                img.src = this.result;
+                img.width = 60;
+                img.height = 60;
+                fileList.appendChild(img);
+            }
+        }else
+        {
+            //ie
+            obj.select();
+            obj.blur();
+            var nfile = document.selection.createRange().text;
+            document.selection.empty();
+            img.src = nfile;
+            img.width = 60;
+            img.height = 60;
+            img.onload=function(){
+
+            }
+            fileList.appendChild(img);
+        }
+    }*/
+
+</script>
+

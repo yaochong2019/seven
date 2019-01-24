@@ -1,0 +1,220 @@
+<!-- 顶部 -->
+
+<include file="public/header"/>
+
+<!-- 顶部 -->
+
+
+
+
+
+<!-------------------------------- header部分 -------------------------------------->
+
+<header id="header-simple"
+
+        data-am-widget="header"
+
+        class="am-header am-header-default">
+
+    <div class="am-header-left am-header-nav">
+
+        <a href="javascript:;" onclick="self.location=document.referrer;" class="">
+
+            <i class="am-header-icon am-icon-angle-left" style="font-size: 2.2rem;"></i>
+
+        </a>
+
+    </div>
+
+    <h1 class="am-header-title">
+
+        {$cate_far.name}
+
+    </h1>
+
+</header>
+
+<div class="bottomPlaceholder"></div>
+
+
+
+<div class="product-classify">
+
+    <div class="person-classify">
+
+        <div class="item active" data-id="1" >全部品类 <i class="am-icon-angle-down"></i></div>
+
+        <div class="item" data-id="2" >全部品牌 <i class="am-icon-angle-down"></i></div>
+
+    </div>
+
+    <div class="person-classify-select hide" data-id="1">
+
+        <ul class="am-avg-sm-4">
+
+            <li class="<if condition='$cate_far.id eq $id'> active </if> all"><a href="{:U('Goods/goodsList',array('id'=>$cate_far['id']))}"><span>全部品类</span></a></li>
+
+            <!-- <volist name="cate_son" id="vo"> -->
+
+            <li datas="{$vo.id}" <if condition="$vo['id'] eq $id"> class="active" </if> >
+
+            	<a href="{:U('Goods/goodsList',array('id'=>$vo['id']))}"><span>{$vo.name}</span></a>
+
+            </li>
+
+            <!-- </volist> -->
+
+        </ul>
+
+        <div class="classify-btn">
+
+            <div class="reset"><a href="{:U('Goods/goodsList',array('id'=>$cate_far['id']))}">重置</a></div>
+
+            <div class="sure"><a href="javascript:;" onclick="off();">确定</a></div>
+
+        </div>
+
+    </div>
+
+    <div class="person-classify-select  hide" data-id="2">
+
+        <ul class="am-avg-sm-4">
+
+            <li class="<if condition='$brand_id eq null'> active </if> all"><a href="{:U('Goods/goodsList',array('id'=>$id))}"><span>全部品牌</span></a></li>
+
+            <!-- <volist name="brand_list" id="vo"> -->
+
+            <li datas="{$vo.id}" <if condition="$vo['id'] eq $brand_id"> class="active" </if>>
+
+            	<a href="{:U('Goods/goodsList',array('id'=>$id,'brand_id'=>$vo.id))}"><span>{$vo.name}</span></a>
+
+            </li>
+
+            <!-- </volist> -->
+
+        </ul>
+
+        <div class="classify-btn">
+
+            <div class="reset"><a href="{:U('Goods/goodsList',array('id'=>$id))}">重置</a></div>
+
+            <div class="sure"><a href="javascript:;" onclick="off();">确定</a></div>
+
+        </div>
+
+    </div>
+
+    <div class="pro-square">
+
+        <h2 class="pro-head">
+
+            {$cate_info.name}
+
+        </h2>
+
+		
+
+		<!-- <volist name="goods_list" id="vo"> -->
+
+        <div class="am-u-sm-6 am-u-md-4 item">
+
+            <div class="pro-img" onclick="location.href='{:U('Goods/goodsInfo',array('id'=>$vo[goods_id]))}'">
+
+                <img src="{$vo[goods_id]|goods_thum_images=400,400}" />
+
+            </div>
+
+            <div class="pro-intro">
+
+                <p>{$vo.goods_name}</p>
+
+                <span class="price">
+
+                 <i>¥</i>{$vo.shop_price}
+
+            </span>
+
+                <span class="add" onclick="AjaxAddCart({$vo[goods_id]},$('#num_'+{$vo[goods_id]}).val());">
+
+                加入购物车
+
+            </span>
+
+                <input type="text" min="1" max="50" value="1" id="num_{$vo[goods_id]}">
+
+            </div>
+
+        </div>
+
+		<!-- </volist> -->
+
+        
+
+    </div>
+
+</div>
+
+
+
+
+
+
+
+
+
+<!-- 底部 -->
+
+<include file="public/footer"/>
+
+<!-- 底部 -->
+
+
+
+<script>
+
+    /****************************选择start********************************/
+
+    $('.person-classify .item').on('click',function(){
+
+        var dataId = $(this).attr('data-id');
+
+        if($(this).hasClass('active')){
+
+            if($(this).hasClass('open')){
+
+                $(this).removeClass('open');
+
+                $('.person-classify-select').addClass('hide');
+
+            }else{
+
+                $(this).addClass('open');
+
+                $('.person-classify-select[data-id='+dataId+']').removeClass('hide')
+
+            }
+
+        }else{
+
+            $('.person-classify .item').removeClass('open').removeClass('active');
+
+            $(this).addClass('active').addClass('open');
+
+            $('.person-classify-select').addClass('hide')
+
+            $('.person-classify-select[data-id='+dataId+']').removeClass('hide');
+
+        }
+
+    });
+
+    
+
+    /****************************选择end********************************/
+
+    function off(){
+        $('.person-classify-select').addClass('hide');
+    }
+
+
+</script>

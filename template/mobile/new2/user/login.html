@@ -1,0 +1,63 @@
+<!-- 顶部 -->
+<include file="public/header"/>
+<!-- 顶部 -->
+
+
+<header id="header-simple"
+        data-am-widget="header"
+        class="am-header am-header-default">
+    <div class="am-header-left am-header-nav">
+        <a href="{:U('reg',array('foid'=>$foid))}" class="">
+           注册
+        </a>
+    </div>
+    <h1 class="am-header-title">
+        账号登录
+    </h1>
+    <a class="am-header-right am-header-nav login-close" href="/"><span>&times;</span></a>
+</header>
+<div class="bottomPlaceholder"></div>
+<div class="login-cont">
+    <form class="form">
+        <div class="form-item">
+            <input class="am-form-field am-round username" type="text" placeholder="手机号码">
+        </div>
+        <div class="form-item has-link">
+            <input class="am-form-field am-round password" type="password" placeholder="输入密码">
+            <a href="">忘记密码</a>
+        </div>
+        <div class="form-item">
+            <button class="am-btn am-btn-primary am-round" onclick="login_go()" type="button">登录</button>
+        </div>
+        <div class="or">或</div>
+        <div class="form-item">
+            <a class="am-btn am-btn-default am-round" href="{:U('login_phone')}" >切换手机快捷登录</a>
+        </div>
+    </form>
+</div>
+<script src="__STATIC__/js/jquery.min.js"></script>
+<script src="__STATIC__/amaze/js/amazeui.min.js"></script>
+<script src="__STATIC__/amaze/js/amazeui.swiper.min.js"></script>
+<script src="__STATIC__/layer_mobile/layer.js"></script>
+<script src="__STATIC__/js/index.js"></script>
+<script>
+	function login_go() {
+        
+		
+        var username = $(".username").val();
+        var password = $(".password").val();
+        $.post("{:U('do_login')}",{username:username,password:password},function (res) {
+            layer.open({
+                content:res.msg,
+                time: 1.5
+            });
+			if(res.status == 1){
+				location.href='/';
+			}
+        },'json');
+		
+
+    }
+</script>
+</body>
+</html>

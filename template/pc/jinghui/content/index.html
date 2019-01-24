@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<meta name="renderer" content="webkit" />
+		<meta name="keyword" content="" />
+		<meta name="description" content="" />
+		<title>联系我们</title>
+		<link rel="stylesheet" href="__STATIC__/css/normalize.css">
+		<link rel="stylesheet" href="__STATIC__/css/iconfont.css">
+		<link rel="stylesheet" href="__STATIC__/vendor/swiper/css/swiper.min.css">
+		<link rel="stylesheet" href="__STATIC__/css/main.css">
+		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+		<!--[if lt IE 9]>
+    <script src="__STATIC__/vendor/html5shiv.min.js"></script>
+    <script src="__STATIC__/vendor/respond.min.js"></script>
+    <script>
+        alert("您的浏览器版本过低请升级！");
+        location.href = "http://outdatedbrowser.com/zh-cn";
+    </script>
+    <![endif]-->
+
+		<style>
+			.advantage {
+				clear: both;
+			}
+			
+			.about form {
+				width: 700px;
+				max-width: 100%;
+				margin: 0 auto;
+				padding-top: 60px;
+			}
+			
+			.about input {
+				line-height: 2.2;
+				font-size: 1rem;
+			}
+			
+			.about .am-form-group {
+				overflow: hidden;
+				margin-bottom: 15px;
+			}
+			
+			.about .am-form-group label {
+				float: left;
+				width: 25%;
+				line-height: 40px;
+				text-align: right;
+				margin-right: 5%;
+			}
+			
+			.about .am-form-group .am-radio span {
+				padding-left: 20px;
+			}
+			
+			.about .am-form-group label>i {
+				color: #ff0000;
+			}
+			
+			.about .am-form-group input {
+				width: 55%;
+				float: left;
+			}
+			
+			.about .am-form-group textarea {
+				width: 70%;
+				height: 120px;
+			}
+			
+			.about .am-form-group .am-btn {
+				width: 170px;
+				height: 50px;
+				font-size: 16px;
+				background: #1d6cae;
+				border: 0;
+				border-radius: 2px;
+				margin-top: 20px;
+				transition: all .3s ease-in;
+				color: #eee;
+				padding: .5em 1em;
+				line-height: 1.2;
+				float: left;
+			}
+			
+			.about .am-form-group .am-btn:hover {
+				opacity: .8;
+				border-color: #247cbb;
+			}
+			
+			.about .am-form-group #doc-vld-code {
+				width: 17%;
+			}
+			
+			.content {
+				padding-top: 60px;
+				text-align: left;
+				margin-left: 30%;
+			}
+			
+			.content .lianxi {
+				position: relative;
+				left: 10%;
+				width: 60%;
+			}
+			.contsele select{
+				width: 50%;
+				height: 30px;
+				margin-top: 5px;
+			}
+			.about .xx{
+				display: none;
+			}
+		</style>
+	</head>
+
+	<body>
+		<include file="public/header" />
+		<!--content-->
+		<div class="about">
+			<form class="am-form" method="POST" id="am-form" action="{:U('Home/Content/mailer')}">
+				<input type="hidden" name="addtime" value="" id="time">
+				<div class="form-item" style="text-align:center;margin-top:0px;color:red;">
+                               <span class="tips"></span>
+                            </div>
+				<div class="am-form-group contsele">
+					<label for="doc-vld-name"><i class="xx">*</i> 联络事宜：</label> 
+					<select name="lianluo">
+						<option value="kefu">客服</option>
+						<option value="other">其他事项</option>
+					</select>
+				</div>
+				
+				<div class="am-form-group">
+					<label for="doc-vld-name"><i class="xx x1">*</i> 您的姓名：</label> 
+					<input type="text" name="username" id="doc-vld-name" class="am-form-field rr r1">
+				</div>
+				<div class="am-form-group">
+					<label for="doc-vld-phone"><i class="xx x2">*</i> 您的电话：</label> 
+					<input type="text" name="phone" id="doc-vld-phone" class="am-form-field rr r2">
+				</div>
+				<div class="am-form-group">
+					<label for="doc-vld-email-2"><i class="xx x21">*</i> 电子邮箱：</label> 
+					<input type="email" name="email" id="doc-vld-email-2 rr r3">
+				</div>
+				<div class="am-form-group">
+					<label for="doc-vld-phone"><i class="xx x3">*</i> 留言内容：</label> 
+					<textarea type="text" name="content" id="doc-vld-content" class="am-form-field rr r4"></textarea>
+				</div>
+				<div class="am-form-group">
+					<label for="doc-vld-submit" style="height: 1px;"></label>
+					<input class="am-btn am-btn-secondary" type="submit" value="发送" id="am-btn"></input>
+				</div>
+			</form>
+		</div>
+
+		<div class="content">
+			<div class="lianxi">
+				<tr>
+					<td>电话：</td>
+					<td>0574-88259190</td>
+				</tr><br />
+				<tr>
+					<td>电子邮箱：</td>
+					<td>contact@pure-seven.com</td>
+				</tr><br />
+				<tr>
+					<td>公司邮寄地址：</td>
+					<td>浙江宁波鄞州区环合中心一号楼502室</td>
+				</tr><br />
+			</div>
+		</div>
+		<!--footer-->
+		<include file="public/footer" />
+
+		<script src="__STATIC__/vendor/jquery.min.js"></script>
+		<script src="__STATIC__/vendor/swiper/js/swiper.min.js"></script>
+		<script src="__STATIC__/vendor/layer/layer.js"></script>
+		<script src="__STATIC__/js/main.js"></script>
+		<script>
+			//二级菜单下的品牌滚动
+			new Swiper('.food-sub-menu-scroll', {
+				direction: 'vertical',
+				autoHeight: true,
+				navigation: {
+					nextEl: '.food-brand-list-up',
+					prevEl: '.food-brand-list-down'
+				},
+				observer: true,
+				observeParents: true
+			});
+		</script>
+		<script type="text/javascript">
+			var date = new Date();
+			var year = date.getFullYear(); //获取当前年份
+			var mon = date.getMonth() + 1; //获取当前月份
+			var da = date.getDate(); //获取当前日
+			var mytime = year + "-" + mon + "-" + da;
+			$("#time").val(mytime);
+
+			$("#am-btn").click(function() {
+				$(".rr").css({
+                   	"color":"black",
+                   })
+				  $(".xx").css({
+				  	"display":"none",
+				  })
+				var reg = /^1[34578][0-9]{9}/;
+				var re = /\w+([-+.]\w+)*@\w+([-.]\w+)*\.\w+([-.]\w+)*/;
+				var email = $("#doc-vld-email-2").val();
+				var phone = $("#doc-vld-phone").val();
+				var content = $("#doc-vld-content").val();
+				if($("#doc-vld-name").val() != "") {				//名字不为空
+					if($("#doc-vld-phone").val() != "" || $("#doc-vld-email-2").val() != "") {			//电话或邮箱不为空
+						if(reg.test(phone) || re.test(email)){
+								if(phone){
+									if(!reg.test(phone)){
+										$(".tips").text('您填写的电话号码有误');
+										$(".x2").css({
+											"display":"inline",
+										})
+										$(".r2").css({
+											"color":"red",
+										})
+										return false;
+									}
+								}
+								if(email){
+									if(!re.test(email)){
+										$(".tips").text('您填写的邮箱有误');
+										$(".x21").css({
+											"display":"inline",
+										})
+										$(".r3").css({
+											"color":"red",
+										})
+										return false;
+									}
+								}
+								if($("#doc-vld-content").val() != ""){		//内容不为空
+									return true;
+								}else{
+									//layer.msg("请填写您的留言。",{
+									//	icon:2
+									//});
+									$(".tips").text('请填写您的留言');
+									$(".x3").css({
+										"display":"inline",
+									})
+									return false;
+									
+								}
+						}else{
+								if(phone){
+									if(!reg.test(phone)){
+										$(".tips").text('您填写的电话号码有误');
+										$(".x2").css({
+											"display":"inline",
+										})
+										$(".r2").css({
+											"color":"red",
+										})
+										return false;
+									}
+								}
+								if(email){
+									if(!reg.test(email)){
+										$(".tips").text('您填写的邮箱有误');
+										$(".x21").css({
+											"display":"inline",
+										})
+										$(".r3").css({
+											"color":"red",
+										})
+										return false;
+									}
+								}
+								//layer.msg("您填写的邮箱或号码有误!",{
+                        		//	icon:2
+                   				//});
+								/*$(".tips").text('您填写的邮箱或号码有误');
+                   				$(".x2").css({
+									//"display":"contents",
+                   					"display":"inline",
+                   				})*/
+								return false;
+						}
+						
+					}else{
+						//layer.msg("请填写您的邮箱或号码。",{
+                        //	icon:2
+                   		//});
+						$(".tips").text('请填写您的邮箱或号码');
+                   		$(".x2").css({
+                   			"display":"inline",
+                   		})
+						$(".x21").css({
+                   			"display":"inline",
+                   		})
+						return false;
+					}
+				}else{
+					//layer.msg("请填写您的名字。",{
+                  //      icon:2
+                  // 	});
+					$(".tips").text('请填写您的名字');
+                   	$(".x1").css({
+                   		"display":"inline",
+                   	})
+					return false;
+				}
+
+			})
+		</script>
+
+	</body>
+
+</html>

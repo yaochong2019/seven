@@ -1,0 +1,35 @@
+<!-- <if condition="$count gt 0"> -->
+<!-- <foreach name="commentlist" item="v" key="k"> -->
+<article class="am-comment">
+    <a href="javascript:void(0)">
+        <img src="{$v['head_pic']|default='__STATIC__/images/headPic.jpg'}" class="am-comment-avatar" alt=""  width="48" height="48"/>
+    </a>
+    <div class="am-comment-main">
+        <header class="am-comment-hd">
+            <div class="am-comment-meta">
+                <a href="#link-to-user" class="am-comment-author">{$v['username']|getsubstr=0,6}</a>
+                <span class="comment-stars"> <i class="am-icon-star"></i> <i class="am-icon-star"></i> <i class="am-icon-star-half"></i> <i class="am-icon-star-o"></i> <i class="am-icon-star-o"></i></span>
+                <time datetime="2013-07-27T04:54:29-07:00" title="2013年7月27日 下午7:54 格林尼治标准时间+0800">{$v['add_time']|date="Y-m-d H:i:s",###}</time>
+            </div>
+        </header>
+
+        <div class="am-comment-bd">
+            <p>{$v['content']|htmlspecialchars_decode}</p>
+            <!--<volist name="$v['img']" id="v2" >-->
+            <img src="{$v2}" alt="">
+            <!-- </foreach> -->
+            <!--<if condition="$v['is_add_content'] eq 1">-->
+            <div class="comment-add">
+                <p>后续追加</p>
+                <p>不错不错</p>
+                <!--<foreach name="$v['img']" item="v2" >-->
+                <img src="__STATIC__/imgs/pro_3.jpg" alt="">
+                <!--</foreach>-->
+            </div>
+            <!--</if>-->
+        </div>
+    </div>
+</article>
+<!-- </foreach> -->
+<!-- <else/> -->
+<!-- </if>-->

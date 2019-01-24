@@ -1,0 +1,411 @@
+<!-- 顶部 -->
+
+<include file="public/header"/>
+
+<!-- 顶部 -->
+
+
+
+
+
+
+
+ <include file="public/left"/>
+
+
+
+
+
+<div class="countDown">
+
+    <span>距离结束：</span>
+
+    <div class="time" id="countDownShow"></div>
+
+</div>
+
+<div class="countDown-menu">
+
+    <div class="item" data-id="1">
+
+        <a href="{:U('Goods/timeLimitShop',array('time'=>$time['front']))}">
+
+        <p>{$time['front']}</p>
+
+        <p>已被抢购</p>
+
+        </a>
+
+    </div>
+
+    <div class="item active" data-id="2">
+
+        <a href="{:U('Goods/timeLimitShop',array('time'=>$time['now']))}">
+
+        <p>{$time['now']}</p>
+
+        <p>正在抢购</p>
+
+        </a>
+
+    </div>
+
+    <div class="item" data-id="3">
+
+        <a href="{:U('Goods/timeLimitShop',array('time'=>$time['after']))}">
+
+        <p>{$time['after']}</p>
+
+        <p>即将开始</p>
+
+        </a>
+
+    </div>
+
+</div>
+
+
+
+<!-------------------------------- 特色产品 -------------------------------------->
+
+<div class="pro-square">
+
+
+
+    <h2 class="pro-head">
+
+
+
+        限时抢购
+
+
+
+    </h2>
+
+    <if condition="$sale neq null">
+
+    <volist name="sale" id="vo">
+
+
+
+    <div class="am-u-sm-6 am-u-md-4 item">
+
+
+
+        <div class="pro-img" onclick="location.href='{:U('Goods/goodsInfo',array('id'=>$vo[goods_id]))}'">
+
+
+
+            <img src="{$vo[goods_id]|goods_thum_images=200,200}" />
+
+            <p>剩余{$vo.store_count}件</p>
+
+        </div>
+
+
+
+        <div class="pro-intro">
+
+
+
+            <p>{$vo[goods_name]|getSubstr=0,15}</p>
+
+
+
+            <span class="reference-price" style="text-decoration: line-through;">
+
+
+
+                 <i style="font-style:normal">¥</i>{$vo[shop_price]}
+
+
+
+            </span>
+
+            <br>
+
+            <span class="price" style="font-size: 20px">
+
+            <i style="font-size: 20px">¥</i>{$vo[price]}
+
+            </span>
+
+            <span class="add" onclick="AjaxAddCart({$vo[goods_id]},$('#num_'+{$vo[goods_id]}).val());">
+
+                加入购物车
+
+            </span>
+
+                <input type="text" min="1" max="50" value="1" id="num_{$vo[goods_id]}">
+
+        </div>
+
+
+
+    </div>
+
+
+
+     </volist> 
+
+    <else />
+
+    <div class="nonenothing" style="height: 300px;">
+
+            <p>暂时没有可抢购商品！
+
+            <a href="{:U('Mobile/Index/index')}">去逛逛</a>
+
+            </p>
+
+        </div>
+
+    </if>
+
+
+
+</div>
+
+
+
+ <!-- 底部 -->
+
+<include file="public/footer"/>
+
+<!-- 底部 -->
+
+
+
+<script>
+
+
+
+    $('.countDown-menu a').each(function(){
+
+        if ($(this)[0].href==String(window.location)) {
+
+            $(this).parent().addClass('active');
+
+            $(this).parent().nextAll().attr('class','item');
+
+            $(this).parent().prevAll().attr('class','item');
+
+        }
+
+
+
+    });
+
+
+
+    //倒计时
+
+
+
+    countdown('{$time['show']}',"#countDownShow");
+
+
+
+
+
+
+
+    var page_1 = 0;
+
+
+
+    ajaxSourchSubmit(1);
+
+
+
+    function ajaxSourchSubmit(tab) {
+
+
+
+        if(tab == 0){
+
+
+
+            page_0 += 1;
+
+
+
+            var page = page_0;
+
+
+
+        }else if(tab == 1){
+
+
+
+            page_1 += 1;
+
+
+
+            var page = page_1;
+
+
+
+        }else if(tab == 2){
+
+
+
+            page_2 += 1;
+
+
+
+            var page = page_2;
+
+
+
+        }
+
+
+
+         
+
+
+
+         $.ajax({
+
+
+
+             type: "GET",
+
+
+
+             url: "{:U('Mobile/Goods/ajaxtimeLimitShop',array(),'')}"+"/p/" + page+"/type/"+tab,
+
+
+
+             success: function (data) {
+
+
+
+                $('.product-list').append(data);
+
+
+
+             }
+
+
+
+         });
+
+
+
+     }
+
+
+
+
+
+
+
+     function specialProductScrollInit(){
+
+
+
+
+
+
+
+        var obj = $("#special-product");
+
+
+
+        var page = obj.find(".special-product-scroll-page");
+
+
+
+        var items = obj.find(".list-item");
+
+
+
+        var currentPage = 1;
+
+
+
+        var specialProTotalPage = Math.ceil(items.length/5);
+
+
+
+
+
+
+
+        page.html(currentPage+"/"+specialProTotalPage);
+
+
+
+
+
+
+
+        new Swiper('#special-product .special-product-scroll', {
+
+
+
+            slidesPerView: 5,
+
+
+
+            spaceBetween: 0,
+
+
+
+            slidesPerGroup: 5,
+
+
+
+            navigation: {
+
+
+
+                nextEl: '#special-product .special-product-next',
+
+
+
+                prevEl: '#special-product .special-product-prev'
+
+
+
+            },
+
+
+
+            on:{
+
+
+
+                slideChangeTransitionEnd: function(){
+
+
+
+                    currentPage = Math.ceil(this.activeIndex/5)+1;
+
+
+
+                    page.html(currentPage+"/"+specialProTotalPage);
+
+
+
+                }
+
+
+
+            }
+
+
+
+        });
+
+
+
+    }
+
+
+
+    specialProductScrollInit();
+
+</script>

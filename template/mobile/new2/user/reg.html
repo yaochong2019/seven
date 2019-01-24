@@ -1,0 +1,158 @@
+<!-- 顶部 -->
+<include file="public/header"/>
+<!-- 顶部 -->
+
+
+<header id="header-simple"
+        data-am-widget="header"
+        class="am-header am-header-default">
+    <div class="am-header-left am-header-nav">
+        <a href="{:U('login')}" class="">
+           登录
+        </a>
+    </div>
+    <h1 class="am-header-title">
+        账号注册
+    </h1>
+    <a class="am-header-right am-header-nav login-close" href="/"><span>&times;</span></a>
+</header>
+
+
+<div class="bottomPlaceholder"></div>
+<div class="login-cont">
+    <form class="form">
+        <div class="form-item">
+            <input class="am-form-field am-round phone-num" type="text" placeholder="手机号码">
+        </div>
+        <div class="form-item has-link">
+            <input class="am-form-field am-round code-input" type="password" placeholder="输入验证码">
+            <a class="get-code" href="javascript:;">发送验证码</a>
+        </div>
+        <!-- <div class="form-item">
+            <input class="am-form-field am-round id-num" type="text" placeholder="请输入身份证号">
+        </div>
+        <div class="form-item">
+            <input class="am-form-field am-round true-name" type="text" placeholder="请输入姓名">
+        </div> -->
+        <div class="form-item">
+            <button class="am-btn am-btn-primary am-round" onClick="reg_go()" type="button">注册</button>
+        </div>
+    </form>
+</div>
+
+
+<script src="__STATIC__/js/jquery.min.js"></script>
+<script src="__STATIC__/amaze/js/amazeui.min.js"></script>
+<script src="__STATIC__/amaze/js/amazeui.swiper.min.js"></script>
+<script src="__STATIC__/layer_mobile/layer.js"></script>
+<script src="__STATIC__/js/index.js"></script>
+<script>
+$(function(){
+        //获取验证码
+        function getCode(time){
+            var obj = $(".get-code");
+            var timeStorage = time;
+            var timer = null;
+            obj.on("click",function(){
+
+                var phoneNum = $(".phone-num").val();
+                if( phoneNum.trim() === '' ){
+                    layer.open({
+                        content:"请填写手机号码",
+                        time: 1.5
+                    });
+                    return;
+                }
+                if( !checkPhone(phoneNum) ){
+                    layer.open({
+                        content:"请填写正确的手机号码",
+                        time: 1.5
+                    });
+                    return;
+                }
+                //这里作交互
+                var scene = 1;
+                var type = 'type';
+                $.post("{:U('/home/Api/send_validate_code')}",{username:phoneNum,scene:scene,type:type},function (re) {
+
+                    // if(re == -1){
+                    //     layer.msg("此账号未注册，请先注册");
+                    // }
+                    
+                    layer.open({
+                        content:re.msg,
+                        time: 3
+                    });
+                    $(this).attr("disabled","disabled");
+                    $(this).html("验证码在"+time+"s后失效");
+                    timer = setInterval(function(){
+                        time--;
+                        if( time >= 0 ){
+                            showNotice(time);
+                        }else{
+                            clearInterval(timer);
+                            time = timeStorage;
+                            obj.removeAttr("disabled");
+                            showNotice();
+                        }
+                    },1000);
+                    
+                });
+                return false;
+                
+            });
+
+            function showNotice(time){
+                if( time ){
+                    obj.html("验证码在"+time+"s后失效");
+                }else{
+                    obj.html("获取验证码")
+                }
+            }
+        }
+        getCode(100);
+
+        function checkPhone(value){
+            return (/^1(3|4|5|7|8)\d{9}$/.test(value))
+        }
+    })
+
+
+function reg_go() {
+    var reg_type = 1;
+    var nickname = $(".true-name").val();
+    var usercode = $(".id-num").val();	var foid = {$foid};
+    //手机注册
+    if(reg_type == 1){
+        var username = $(".phone-num").val();
+        var code = $(".code-input").val();
+        var check_phone = 1;
+        var password = '';
+        var password2 = '';
+    }else{
+        var username = $(".username").val();
+        var code = '';
+        var check_phone = 0;
+        var password = $(".password").val();
+        var password2 = $(".password2").val();
+    }
+	
+    $.post("{:U('reg')}",{nickname:nickname,usercode:usercode,username:username,code:code,check_phone:check_phone,password:password,password2:password2,scene:1,foid:foid},function (res) {
+        console.log(res);
+        layer.open({
+                content:res.msg,
+                time: 1.5
+            });
+        if(res.status == 1){
+            setInterval(function(){
+                window.location.href="{:U('index')}"
+            },1000);
+        }
+    },'json');
+
+
+}
+
+</script>
+</body>
+</html>

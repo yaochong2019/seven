@@ -1,0 +1,157 @@
+<include file="public/layout" />
+<script type="text/javascript" src="__ROOT__/public/static/js/layer/laydate/laydate.js"></script>
+
+<body style="background-color: rgb(255, 255, 255); overflow: auto; cursor: default; -moz-user-select: inherit;">
+<div id="append_parent"></div>
+<div id="ajaxwaitid"></div>
+<div class="page">
+    <div class="fixed-bar">
+        <div class="item-title">
+            <div class="subject">
+                <h3>拼团订单</h3>
+                <h5>商城拼团查询及管理</h5>
+            </div>
+        </div>
+    </div>
+    <!-- 操作说明 -->
+    <div id="explanation" class="explanation" style=" width: 99%; height: 100%;">
+        <div id="checkZoom" class="title"><i class="fa fa-lightbulb-o"></i>
+            <h4 title="提示相关设置操作时应注意的要点">操作提示</h4>
+            <span title="收起提示" id="explanationZoom" style="display: block;"></span>
+        </div>
+        <ul>
+            <li>拼团类型,价格。可在编辑商品时创建</li>
+        </ul>
+    </div>
+    <div class="flexigrid">
+        <div class="mDiv">
+            <div class="ftitle">
+                <h3>拼团订单列表</h3>
+                <!--<h5>(共{$page->totalRows}条记录)</h5>-->
+            </div>
+            <div title="刷新数据" class="pReload"><i class="fa fa-refresh"></i></div>
+            <form class="navbar-form form-inline" method="post" name="search-form2" id="search-form2">
+                <div class="sDiv">
+                    <div class="sDiv2">
+                        <input type="text" size="30" id="add_time_begin" name="start_time" value="{$start_time}" class="qsbox"  placeholder="开始时间">
+                    </div>
+                    <div class="sDiv2">
+                        <input type="text" size="30" id="add_time_end" name="end_time" value="{$end_time}" class="qsbox"  placeholder="结束时间">
+                    </div>
+                    <div class="sDiv2">
+                        <select name="is_end" class="select sDiv3" style="margin-right:5px;margin-left:5px">
+                            <option value="">所有状态</option>
+                            <option value="2">进行中</option>
+                            <option value="1">已结束</option>
+                        </select>
+                    </div>
+                    <div class="sDiv2">
+                        <select name="group_id" class="select sDiv3" style="margin-right:5px;margin-left:5px">
+                            <option value="">所有类型</option>
+                            <option value="2">二人团</option>
+                            <option value="3">三人团</option>
+                        </select>
+                    </div>
+                    <div class="sDiv2">
+                        <input type="button" class="btn" onclick="ajax_get_table('search-form2',1)" value="搜索">
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="hDiv">
+            <div class="hDivBox">
+                <table cellspacing="0" cellpadding="0">
+                    <thead>
+                    <tr>
+                        <th axis="col0">
+                            <div style="width: 24px;"><i class="ico-check"></i></div>
+                        </th>
+                        <th align="left" axis="col3" class="">
+                            <div style="text-align: center; width: 80px;" class="">拼团类型</div>
+                        </th>
+                        <th align="left" axis="col3" class="">
+                            <div style="text-align: center; width: 140px;" class="">拼主</div>
+                        </th>
+                        <th align="center" axis="col5" class="">
+                            <div style="text-align: center; width: 200px;" class="">拼团标题</div>
+                        </th>
+                        <th align="center" axis="col5" class="">
+                            <div style="text-align: center; width: 200px;" class="">拼团商品</div>
+                        </th>
+                        <th align="center" axis="col5" class="">
+                            <div style="text-align: center; width: 60px;" class="">拼团价格</div>
+                        </th>
+                        <th align="center" axis="col5" class="">
+                            <div style="text-align: center; width: 140px;" class="">开始时间</div>
+                        </th>
+                        <th align="center" axis="col5" class="">
+                            <div style="text-align: center; width: 140px;" class="">结束时间</div>
+                        </th>
+                        <th align="center" axis="col6" class="">
+                            <div style="text-align: center; width: 60px;" class="">拼团状态</div>
+                        </th>
+                        <th align="center" axis="col6" class="">
+                            <div style="text-align: center; width: 60px;" class="">已拼人数</div>
+                        </th>
+                        <th align="left" axis="col1" class="handle">
+                            <div style="text-align: center; width: 150px;">操作</div>
+                        </th>
+                    </tr>
+                    </thead>
+                </table>
+            </div>
+        </div>
+        <div class="bDiv" style="height: auto;">
+            <div id="flexigrid" cellpadding="0" cellspacing="0" border="0">
+            
+            </div>
+            <div class="iDiv" style="display: none;"></div>
+        </div>
+        <!--分页位置-->
+    </div>
+</div>
+<script type="text/javascript">
+
+    $(document).ready(function(){
+        $('#add_time_begin').layDate();
+        $('#add_time_end').layDate();
+        ajax_get_table('search-form2',1);
+    });
+
+    // 点击刷新数据
+    $('.fa-refresh').click(function(){
+        location.href = location.href;
+    });
+    $('.ico-check ' , '.hDivBox').click(function(){
+        $('tr' ,'.hDivBox').toggleClass('trSelected' , function(index,currentclass){
+            var hasClass = $(this).hasClass('trSelected');
+            $('tr' , '#flexigrid').each(function(){
+                if(hasClass){
+                    $(this).addClass('trSelected');
+                }else{
+                    $(this).removeClass('trSelected');
+                }
+            });
+        });
+    });
+
+    // ajax 抓取页面
+    function ajax_get_table(tab,page){
+        cur_page = page; //当前页面 保存为全局变量
+            $.ajax({
+                type : "POST",
+                url:"/index.php?m=Admin&c=Team&a=ajax_group_list",//+tab,
+                data : $('#'+tab).serialize(),// 你的formid
+                success: function(data){
+                    //alert(data);
+                    if (data.status==1) {
+                        layer.msg(data.msg);
+                    }
+                    $("#flexigrid").html('');
+                    $("#flexigrid").append(data);
+                }
+            });
+    }
+</script>
+</body>
+</html>

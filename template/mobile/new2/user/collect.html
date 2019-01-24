@@ -1,0 +1,79 @@
+<!-- 顶部 -->
+<include file="public/header"/>
+<!-- 顶部 -->
+
+<!-------------------------------- header部分 -------------------------------------->
+<header id="header-simple"
+        data-am-widget="header"
+        class="am-header am-header-default">
+    <div class="am-header-left am-header-nav">
+        <a href="javascript:history.go(-1)" class="">
+            <i class="am-header-icon am-icon-angle-left" style="font-size: 2.2rem;"></i>
+        </a>
+    </div>
+    <h1 class="am-header-title">
+        我的收藏
+    </h1>
+</header>
+<div class="bottomPlaceholder"></div>
+<div class="person-order">
+
+    <div class="pro-list order-list" data-id="1">
+        <div class="item">
+
+        <!--<volist name="goods_list" id="vo">-->
+            <div class="item-pro">
+                <div class="pro-item">
+                    <div class="pro-l"><a href="{:U('Mobile/Goods/goodsInfo',array('id'=>$vo[goods_id]))}">
+                        <img src="{$vo[goods_id]|goods_thum_images=200,200}" alt=""></a>
+                    </div>
+                    <div class="pro-r">
+                        <ul>
+                            <li class="title">{$vo[goods_name]|getSubstr=0,15}</li>
+                            <li class="number">商品编号：{$vo.goods_sn}</li>
+                            <!--<li class="weight">重量：0.48g</li>-->
+                            <li class="count">
+                                <a href="javascript:collect_goods('{$vo.goods_id}');" style="font-size: 13px;margin: 3px" >取消</a>
+                                <span class="price-now">¥{$vo.shop_price}</span>
+                                <s class="price-old">¥{$vo.market_price}</s>
+
+                            </li>
+
+                        </ul>
+
+                    </div>
+
+                </div>
+            </div>
+        <!--</volist>-->
+
+        </div>
+
+
+
+</div>
+
+<!-- 底部 -->
+<include file="public/footer2"/>
+<!-- 底部 -->
+
+    <script>
+        //点击收藏商品
+        function collect_goods(goods_id){
+            $.ajax({
+                type : "GET",
+                dataType: "json",
+                url:"/index.php?m=Home&c=goods&a=collect_goods&goods_id="+goods_id,//+tab,
+                success: function(data){
+
+
+                    if(data.status == '1'){
+                        //收藏点亮
+                        //history.go(0);
+                        location.reload();
+                    }
+
+                }
+            });
+        }
+    </script>

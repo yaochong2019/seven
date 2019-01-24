@@ -1,0 +1,77 @@
+ <table>
+    <tbody>
+    <empty name="group">
+        <tr data-id="0">
+            <td class="no-data" align="center" axis="col0" colspan="50">
+                <i class="fa fa-exclamation-circle"></i>没有符合条件的记录
+            </td>
+        </tr>
+        <else/>
+        <volist name="group" id="vo">
+            <tr>
+                <td class="sign" axis="col0">
+                    <div style="width: 24px;"><i class="ico-check"></i></div>
+                </td>
+                <td align="left" axis="col3" class="">
+                    <div style="text-align: center; width: 80px;" class="">
+                    <if condition = "$vo[group_id] eq 2">二人团
+                    <elseif condition="$vo[group_id] eq 3" />
+                    三人团
+                    </if>
+                    </div>
+                </td>
+                <td align="left" axis="col4" class="">
+                    <div style="text-align: center; width: 140px;" class="">  
+                    {$vo[username]}
+                    </div>
+                </td>
+                <td align="center" axis="col6" class="">
+                    <div style="text-align: center; width: 200px;" class="">{$vo[title]}</div>
+                </td>
+                <td align="center" axis="col6" class="">
+                    <div style="text-align: center; width: 200px;" class="">{$vo[goods_name]}</div>
+                </td>
+                <td align="center" axis="col6" class="">
+                    <if condition="$vo[group_id] eq 2">
+                    <div style="text-align: center; width: 50px;" class="">{$vo[group_price2]}</div>
+                    <else />
+                    <div style="text-align: center; width: 60px;" class="">{$vo[group_price3]}</div>
+                    </if>
+                </td>
+                <td align="center" axis="col6" class="">
+                    <div style="text-align: center; width: 140px;" class="">{$vo[start_time]|date='Y-m-d H:i',###}</div>
+                </td>
+                <td align="center" axis="col6" class="">
+                    <div style="text-align: center; width: 140px;" class="">{$vo[end_time]|date='Y-m-d H:i',###}</div>
+                </td>
+                <td align="center" axis="col6" class="">
+                    <div style="text-align: center; width: 60px;" class="">
+                    <if condition="$vo[is_end] eq 1">
+                    已结束
+                    <elseif condition="$vo[is_end] eq 2"/>
+                    进行中
+                    </if>
+                    </div>
+                </td>
+                <td align="center" axis="col6" class="">
+                    <div style="text-align: center; width: 60px;" class="">{$vo[user_num]}人</div>
+                </td>
+                <td align="left" axis="col1" class="handle" >
+                    <div style="text-align: center; width: 150px;">
+                    <if condition="$vo[is_end] eq 1">
+                    <a class="btn red" style="color: #777;box-shadow: none;" data-url="{:U('Admin/Team/delete',array('id'=>$vo['group_id']))}" onclick="delfunc(this)">删除</a>
+                    </if>
+                    </div>
+                </td>
+                <td style="width: 100%;">
+                    <div></div>
+                </td>
+            </tr>
+        </volist>
+    </empty>
+    </tbody>
+</table>
+<div class="row">
+    <div class="col-sm-6 text-left"></div>
+    <div class="col-sm-6 text-right">{$page}</div>
+</div>

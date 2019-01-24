@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+	<head>
+
+		<meta charset="UTF-8">
+
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+
+		<meta name="renderer" content="webkit" />
+
+		<meta name="keyword" content="" />
+
+		<meta name="description" content="" />
+
+		<title>净会</title>
+
+		<link rel="stylesheet" href="__STATIC__/css/normalize.css">
+
+		<link rel="stylesheet" href="__STATIC__/css/iconfont.css">
+
+		<link rel="stylesheet" href="__STATIC__/vendor/jquery-labelauty/jquery-labelauty.css">
+		<!--单选复选css-->
+
+		<link rel="stylesheet" href="__STATIC__/vendor/swiper/css/swiper.min.css">
+
+		<link rel="stylesheet" href="__STATIC__/css/main.css">
+
+		<script src="__STATIC__/vendor/jquery.min.js"></script>
+
+		<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+
+		<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+
+		<!--[if lt IE 9]>
+
+	<script src="__STATIC__/vendor/html5shiv.min.js"></script>
+
+	<script src="__STATIC__/vendor/respond.min.js"></script>
+
+	<script>
+
+		alert("您的浏览器版本过低请升级！");
+
+		location.href = "http://outdatedbrowser.com/zh-cn";
+
+	</script>
+
+	<![endif]-->
+
+	</head>
+
+	<body>
+
+		<!--header-->
+
+		<include file="public/header" />
+
+		<!--member-->
+
+		<div class="container">
+
+			<div class="pay" style="text-align:center;background: #e1f3e7">
+
+				<div class="pay-title">订单提交成功！</div>
+
+				<if condition="$master_order_sn neq ''">
+
+					<p class="text">
+
+						<strong style="font-size: 15px;">订单号：</strong><em>{$master_order_sn}</em>&nbsp;&nbsp;|&nbsp;&nbsp;<strong style="font-size: 15px;">付款金额：</strong><em>{$sum_order_amount}</em>元
+
+					</p>
+
+					<else />
+
+					<p class="text">
+
+						<strong style="font-size: 15px;">订单号：</strong><em>{$order['order_sn']}</em>&nbsp;&nbsp;|&nbsp;&nbsp;<strong style="font-size: 15px;">付款金额：</strong><em>{$order['order_amount']}</em>元
+
+					</p>
+
+				</if>
+
+				<p class="title">请您在<em>{$pay_date}</em>前完成支付，否则订单将自动取消</p>
+
+			</div>
+
+			<div class="pay">
+
+				<div class="pay-title">快捷支付</div>
+
+				<form name="cart4_form" id="cart4_form">
+
+					<div class="pay-cont">
+
+						<div class="pay-way">
+
+							<foreach name="paymentList" item="v" key="k">
+
+								<div class="item checked">
+
+									<div class="item-left">
+
+										<input type="radio" checked class="labelauty-checked-image" value="pay_code={$v['code']}" name="pay_radio">
+
+										<span class="labelauty-checked-image"></span>
+
+										<div class="icon">
+
+											<img src="/plugins/{$v['type']}/{$v['code']}/{$v['icon']}" height="40" onClick="change_pay(this);" />
+
+										</div>
+
+									</div>
+
+									<div class="item-right">
+
+										支付<span>￥{$order['order_amount']}</span>
+
+									</div>
+
+								</div>
+
+							</foreach>
+
+						</div>
+
+						<input type="hidden" name="order_id" id="order_id" value="{$order_id}">
+
+						<div class="pay-password-set pay-password-enter">
+
+							<div class="head">支付密码：</div>
+
+							<div class="form">
+
+								<input class="form-control" type="password" name="paypwd" placeholder="请输入支付密码" autocomplete="off" />
+
+							</div>
+
+							<if condition="empty($user.paypwd)">
+
+								<div class="head">请先<a href="{:U('User/index')}" style="color: #a05555;">设置支付密码</a></div>
+
+								<else />
+
+								<div class="head"><a href="{:U('User/index')}" style="color: #a05555;">忘记支付密码?</a></div>
+
+							</if>
+
+						</div>
+
+						<div class="pay-confirm">
+
+							<a class="btn btn-primary" href="javascript:;" onclick="pay();">确认付款</a>
+
+						</div>
+
+				</form>
+
+			</div>
+
+		</div>
+
+		</div>
+
+		<!--footer-->
+
+		<include file="public/footer" />
+
+		<script src="__STATIC__/vendor/jquery-labelauty/jquery-labelauty.js"></script>
+		<!--单选复选美化插件-->
+
+		<script src="__STATIC__/vendor/swiper/js/swiper.min.js"></script>
+
+		<script src="__STATIC__/vendor/layer/layer.js"></script>
+
+		<script src="__STATIC__/js/main.js"></script>
+
+
+		<script>
+			$(document).ready(function() {
+
+				$("input[name='pay_radio']").first().trigger('click');
+
+				$(":radio").labelauty({
+					label: false
+				});
+
+			});
+
+			//二级菜单下的品牌滚动
+
+			new Swiper('.food-sub-menu-scroll', {
+
+				direction: 'vertical',
+
+				autoHeight: true,
+
+				navigation: {
+
+					nextEl: '.food-brand-list-up',
+
+					prevEl: '.food-brand-list-down'
+
+				},
+
+				observer: true,
+
+				observeParents: true
+
+			});
+
+
+
+			// 切换支付方式
+
+			function change_pay(obj) {
+
+				$(obj).parent().siblings('input[name="pay_radio"]').trigger('click');
+
+			}
+
+
+
+			function pay() {
+
+				var form = $('#cart4_form');
+				var pay_radio = $("input[name='pay_radio']:checked").val();
+				var order_id = $("input[name='order_id']").val();
+				var paypwd = $("input[name='paypwd']").val();
+				var data = form.serialize();
+
+				$.post('{:U("Payment/check_pas")}', data, function(res) {
+					console.log(res);
+					if (res.status == 1) {
+						location.href = ("/index.php?m=Home&c=Payment&a=getCode&pay_radio=" + pay_radio + "&order_id=" + order_id);
+					} else {
+						layer.msg('支付密码错误');
+					}
+				}, 'json')
+			}
+		</script>
+
+	</body>
+
+</html>

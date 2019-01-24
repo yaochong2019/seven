@@ -1,0 +1,77 @@
+
+<!-- 顶部 -->
+
+<include file="public/header"/>
+<script src="__STATIC__/js/jquery-1.10.2.min.js"></script>
+<script type="text/javascript" src="__STATIC__/js/jquery.qrcode.min.js"></script>
+<!-- 顶部 -->
+
+<style>
+
+.des img{
+
+    max-width: 100%;
+
+}
+
+</style>
+
+<!-------------------------------- header部分 -------------------------------------->
+
+<header id="header-simple"
+
+        data-am-widget="header"
+
+        class="am-header am-header-default">
+
+    <div class="am-header-left am-header-nav">
+
+        <a href="javascript:history.go(-1)" class="">
+
+            <i class="am-header-icon am-icon-angle-left" style="font-size: 2.2rem;"></i>
+
+        </a>
+
+    </div>
+
+    <h1 class="am-header-title">
+
+        {$goods.goods_name}
+
+    </h1>
+
+
+
+</header>
+
+
+
+<div style="width: 80%;margin-left: 10%;background: #f7f7f7;padding-bottom: 10px;border: 1px solid #d8d8d8;">
+    
+
+    <img src="{$goods[goods_id]|goods_thum_images=400,400}" style="margin-top: 50px;width: 100%">
+    <h3 style="text-align: center;">{$goods.goods_name}</h3>
+    <p style="text-align: center;color: red">{$goods.shop_price}</p>
+
+</div>
+
+<div style="width: 80%;margin-left: 10%;">
+<br>
+   <div id="output"></div>
+
+   <br>
+   <span style="font-size: 12px;color: #666;">截图发送给好友</span><br>
+   <span style="font-size: 12px;color: #666;">长按图片识别二维码</span>
+</div>
+<script>
+jQuery(function(){
+		jQuery('#output').qrcode({
+		render: "canvas", //也可以替换为table
+		width: 150,
+		height: 150,
+		text: "{$url}"
+	});
+})
+</script>
+
+

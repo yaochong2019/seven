@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+	<meta name="renderer" content="webkit" />
+	<meta name="keyword" content="" />
+	<meta name="description" content="" />
+	<title>净会</title>
+	<link rel="stylesheet" href="__STATIC__/css/normalize.css">
+	<link rel="stylesheet" href="__STATIC__/css/iconfont.css">
+	<link rel="stylesheet" href="__STATIC__/vendor/jquery-labelauty/jquery-labelauty.css"><!--单选复选css-->
+	<link rel="stylesheet" href="__STATIC__/css/main.css">
+	<!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+	<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+	<!--[if lt IE 9]>
+	<script src="__STATIC__/vendor/html5shiv.min.js"></script>
+	<script src="__STATIC__/vendor/respond.min.js"></script>
+	<script>
+		alert("您的浏览器版本过低请升级！");
+		location.href = "http://outdatedbrowser.com/zh-cn";
+	</script>
+	<![endif]-->
+	<style>
+		.footer{
+			margin-top:0;
+		}
+	</style>
+</head>
+<body>
+<!--header-->
+<include file="public/header"/>
+<!--nav-->
+<section class="login">
+	<div class="login-cont">
+		<div class="login-left">
+			<img src="__STATIC__/images/login.png" alt="">
+		</div>
+		<div class="login-right">
+			<div class="login-tab">
+				<div class="tab-title">
+					<a href="javascript:;" login_type="1">手机快捷登录</a>
+					<a href="javascript:;" login_type="2">账号登录</a>
+				</div>
+				<div class="tab-cont">
+					<form class="form">
+						<div class="tab-item">
+							<div class="form-item">
+								<input class="form-control phone-num" type="text" placeholder="请输入手机号" />
+							</div>
+							<div class="form-item">
+								<input class="form-control code-input" type="text" placeholder="请输入验证码" />
+								<button class="get-code">获取验证码</button>
+							</div>
+						</div>
+						<div class="tab-item">
+							<div class="form-item">
+								<input class="form-control username" type="text" placeholder="请输入邮件地址" />
+							</div>
+							<div class="form-item">
+								<input class="form-control password" type="password" placeholder="请输入密码" />
+							</div>
+						</div>
+						<div class="form-item">
+							<input type="button" onclick="login_go()" value="登录" class="btn btn-primary">
+						</div>
+						<div class="form-item">
+							<input type="button" onclick="location.href='{:U('reg')}'" value="注册" class="btn btn-default">
+						</div>
+						<div class="form-item last-item">
+							<div class="rememberUsername">
+								<input type="checkbox" id="rememberUsername" />
+								<span>记住用户名</span>
+							</div>
+							<a class="forgetPassword" href="{:U('Index/forgetPassword')}">忘记密码？</a>
+						</div>
+					</form>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!--footer-->
+<div class="container" style="max-width:none;">
+	<include file="public/footer"/>
+</div>
+
+<script src="__STATIC__/vendor/jquery.min.js"></script>
+<script src="__STATIC__/vendor/jquery.cookie.min.js"></script>
+<script src="__STATIC__/vendor/layer/layer.js"></script>
+<script src="__STATIC__/vendor/jquery-labelauty/jquery-labelauty.js"></script><!--单选复选美化插件-->
+<script src="__STATIC__/js/main.js"></script>
+<script>
+
+
+	function login_go() {
+        var login_type = $('.login-tab .active').attr('login_type');
+		if(login_type == 1){
+            var username = $(".phone-num").val();
+            var code = $(".code-input").val();
+            $.post("{:U('do_login_phone')}",{username:username,code:code,scene:1},function (res) {
+                layer.msg(res.msg);
+                if(res.status == 1){
+                    location.href='/';
+                }
+            },'json');
+		}else{
+            var username = $(".username").val();
+            var password = $(".password").val();
+            $.post("{:U('do_login')}",{username:username,password:password},function (res) {
+                layer.msg(res.msg);
+				if(res.status == 1){
+					location.href='/';
+				}
+            },'json');
+		}
+
+    }
+
+    $(function(){
+
+        initTab(".login-tab");
+
+        $(":checkbox").labelauty({
+            label:false
+        });
+
+
+        //获取验证码
+        function getCode(time){
+            var obj = $(".get-code");
+            var timeStorage = time;
+            var timer = null;
+            obj.on("click",function(){
+
+                var phoneNum = $(".phone-num").val();
+                if( phoneNum.trim() === '' ){
+                    layer.msg("请填写手机号码",{
+                        icon:2
+                    });
+                    return;
+                }
+                if( !checkPhone(phoneNum) ){
+                    layer.msg("请填写正确的手机号码",{
+                        icon:2
+                    });
+                    return;
+                }
+                //这里作交互
+				var scene = 1;
+                var type = 'type';
+				$.post("{:U('get_pcode')}",{username:phoneNum,scene:scene,type:type},function (re) {
+
+				    if(re == -1){
+                        layer.msg("此账号未注册，请先注册");
+					}
+                    layer.msg(re.msg);
+				    if(re.status == 1){
+                        obj.attr("disabled","disabled");
+                        $(this).html("验证码在"+time+"s后失效");
+                        timer = setInterval(function(){
+                            time--;
+                            if( time >= 0 ){
+                                showNotice(time);
+                            }else{
+                                clearInterval(timer);
+                                time = timeStorage;
+                                obj.removeAttr("disabled");
+                                showNotice();
+                            }
+                        },1000);
+					}
+
+                });
+
+				return false;
+
+            });
+
+            function showNotice(time){
+                if( time ){
+                    obj.html("验证码在"+time+"s后失效");
+                }else{
+                    obj.html("获取验证码")
+                }
+            }
+        }
+        getCode(100);
+
+        function checkPhone(value){
+            return (/^1(3|4|5|7|8)\d{9}$/.test(value))
+        }
+
+
+        //登录如果勾选了记住用户名情调用下面方法
+        //$.cookie("username","kobe",{expires:7}); //保存7天
+       	//$.cookie("phoneNum","15209895622",{expires:7});
+
+
+        function setUsernameOrPhone(){
+            if( $.cookie("phoneNum") ){
+                $(".phone-num").val($.cookie("phoneNum"))
+            }
+            if( $.cookie("username") ){
+                $(".username").val($.cookie("username"))
+            }
+        }
+        setUsernameOrPhone();
+
+    })
+
+</script>
+</body>
+</html>

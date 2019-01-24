@@ -1,0 +1,3 @@
+<?php
+//000000000001{"site_url":"","record_no":"\u6d59ICP\u590718017318\u53f7-1","store_name":"\u51c0\u4f1a\u5546\u57ce","store_logo":"\/public\/upload\/logo\/2018\/03-29\/b9c3f1bf41c6be51a0b41aae23a4c24a.png","store_title":"\u51c0\u4f1a\u5546\u57ce","store_desc":"","store_keyword":"","contact":"","phone":"0574-88259190","address":"\u911e\u5dde\u533a\u73af\u5408\u4e2d\u5fc3\u4e00\u53f7502\u5ba4","qq":"","qq2":"","qq3":"","mobile":"0574-88259190","province":"12596","city":"12813","district":"\u9009\u62e9\u533a\u57df","form_submit":"ok","store_user_logo":"\/public\/upload\/logo\/2018\/03-29\/b460d5f127401fd7c471ee836d3f8ca6.png"}
+?>

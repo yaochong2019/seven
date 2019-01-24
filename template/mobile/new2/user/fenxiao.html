@@ -1,0 +1,46 @@
+<!-- 顶部 -->
+<include file="public/header"/>
+<!-- 顶部 -->
+
+<!-------------------------------- header部分 -------------------------------------->
+<header id="header-simple"
+        data-am-widget="header"
+        class="am-header am-header-default">
+    <div class="am-header-left am-header-nav">
+        <a href="javascript:history.go(-1)" class="">
+            <i class="am-header-icon am-icon-angle-left" style="font-size: 2.2rem;"></i>
+        </a>
+    </div>
+    <h1 class="am-header-title">
+        分销人员
+    </h1>
+</header>
+<div class="bottomPlaceholder"></div>
+
+<div class="distribution-personnel">
+	<volist name="mysons" id="vo">
+		<div class="item">
+			<div class="left">
+				<img src="__STATIC__/imgs/head_img.png" alt="">
+			</div>
+			<div class="right">
+				<span class="subordinate"> 下级人数：{$vo.xiaji}人 </span>
+				<ul>
+					<li class="">{$vo.nickname}</li>
+					<li><!-- 账号等级：B级 --></li>
+					<li><i class="am-icon-line-chart"></i> 当前销售额：{$vo.yeji}元</li>
+				</ul>
+			</div>
+		</div>
+	</volist>
+    
+    
+
+</div>
+
+
+
+
+<!-- 底部 -->
+<include file="public/footer2"/>
+<!-- 底部 -->

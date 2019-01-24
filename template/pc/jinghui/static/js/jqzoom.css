@@ -1,0 +1,153 @@
+/* CSS Document */
+#preview {
+	text-align:center;
+	width:400px;
+	float:none
+	padding: 5px;
+    border: 1px solid #e5e5e5;
+    border-radius: 4px;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.15);
+}
+.jqzoom {
+	width:100%;
+	margin-bottom:10px;
+	height:400px;
+	overflow:hidden;
+	_height:40px;
+	position:relative;
+}
+.jqzoom #bigImg{
+	width: 100%;
+}
+.zoomdiv {
+	width:400px;
+	height:400px;
+	top: 0!important;
+	left: 415px!important;
+	z-index:100;
+	border:#e4e4e4 1px solid;
+	position:absolute;
+	text-align:center;
+	display:none;
+	background:url(../images/loading.gif) #fff no-repeat center center;
+	overflow:hidden;
+}
+#spec {
+	position:relative;
+	width:385px;
+	height:90px;
+	margin-left:6px;
+	overflow:hidden;
+	padding-top:6px
+}
+.specLeftT {
+	position:absolute;
+	width:9px;
+	background:url(../images/feel3.png) no-repeat ;
+	float:left;
+	height:18px;
+	top:50%;
+	margin-top: -9px;
+	cursor:pointer;
+	left:0px
+}
+.specRightT {
+	position:absolute;
+	width:9px;
+	background:url(../images/feel4.png) no-repeat ;
+	float:left;
+	height:18px;
+	top:50%;
+	margin-top: -9px;
+	cursor:pointer;
+	right:0px
+}
+.specLeftF {
+	position:absolute;
+	width:9px;
+	background:url(../images/feel3.png) no-repeat;
+	float:left;
+	height:18px;
+	top:50%;
+	margin-top: -9px;
+	cursor:pointer;
+	left:0px
+}
+.specRightF {
+	position:absolute;
+	width:9px;
+	background:url(../images/feel4.png) no-repeat;
+	float:left;
+	height:18px;
+	top:50%;
+	margin-top: -9px;
+	cursor:pointer;
+	right:0px
+}
+#specList {
+	display:inline;
+	float:left;
+	margin-left:2px
+}
+#specList ul li {
+	width:80px;
+	display:inline;
+	float:left;
+	margin: 0 2px
+}
+#specList ul li img {
+	padding-bottom:2px;
+	padding-left:2px;
+	width:80px;
+	padding-right:2px;
+	margin-bottom:1px;
+	height:80px;
+	border:#ccc 1px solid;
+	padding-top:2px
+}
+.bigimg {
+	width:800px;
+	height:800px
+}
+.jqZoomPup {
+	z-index:10;
+	border-bottom:#aaa 1px solid;
+	position:absolute;
+	filter:alpha(opacity=50);
+	border-left:#aaa 1px solid;
+	width:50px;
+	background:#fede4f no-repeat 50% top;
+	height:50px;
+	visibility:hidden;
+	border-top:#aaa 1px solid;
+	top:0px;
+	cursor:default;
+	display: none;
+	border-right:#aaa 1px solid;
+	left:0px;
+	opacity:0.5;
+	-moz-opacity:0.5;
+	-khtml-opacity:0.5
+}
+#specList {
+	position:absolute;
+	text-align:left;
+	width:337px!important;
+	height:80px;
+	overflow:hidden;
+	top:0px;
+	left:22px
+}
+#specList ul {
+	position:absolute;
+	width:355px;
+	left: 3px
+}
+        
+        
+        
+        
+        
+        
+        
+        

@@ -1,0 +1,3 @@
+<?php
+//000000000001[{"img_id":204,"goods_id":66,"image_url":"\/public\/upload\/goods\/2019\/01-18\/a75a71e81b13b77cbdafc74ceb548f00.png"},{"img_id":207,"goods_id":66,"image_url":"\/public\/upload\/goods\/2019\/01-18\/b5cd2c86d541bb59edc8db53dda3263c.jpg"},{"img_id":205,"goods_id":66,"image_url":"\/public\/upload\/goods\/2019\/01-18\/350b456cd6e82d72e7d14192307429dc.jpg"},{"img_id":208,"goods_id":66,"image_url":"\/public\/upload\/goods\/2019\/01-18\/5e10a8e00a5c24bdefbb1c6f9f8d981a.jpg"},{"img_id":209,"goods_id":66,"image_url":"\/public\/upload\/goods\/2019\/01-18\/57c7795ed5d846532c560b60259630e9.jpg"}]
+?>

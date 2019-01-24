@@ -1,0 +1,92 @@
+<!-- 顶部 -->
+<include file="public/header"/>
+<!-- 顶部 -->
+
+<!-------------------------------- header部分 -------------------------------------->
+<header id="header-simple"
+        data-am-widget="header"
+        class="am-header am-header-default">
+    <div class="am-header-left am-header-nav">
+        <a href="javascript:history.go(-1)" class="">
+            <i class="am-header-icon am-icon-angle-left" style="font-size: 2.2rem;"></i>
+        </a>
+    </div>
+    <h1 class="am-header-title">
+        收货地址
+    </h1>
+</header>
+<div class="bottomPlaceholder"></div>
+<div class="chat-address">
+<!--<volist name="lists" id="list">-->
+    <div class="item am-animation-slide-left ">
+        <div class="top">
+            <div class="left am-animation-reverse">
+                <div class="checkbox checkbox-circle <if condition='$list[is_default] eq 1'> checked </if> "></div>
+            </div>
+            <ul class="right">
+                <li><span class="tel">{$list[mobile]}</span> <span class="name">{$list[consignee]}</span> </li>
+                <li>{$region_list[$list['province']]},{$region_list[$list['city']]},{$region_list[$list['district']]},{$region_list[$list['twon']]}{$list['address']}</li>
+            </ul>
+        </div>
+        <div class="bottom">
+            <span class="am-badge am-badge-primary am-radius am-text-sm default-address <if condition='$list[is_default] neq 1'> add </if>">默认地址</span>
+            <a href="javascript:void(0)" class="am-icon-trash delete">删除</a>
+            <a href="javascript:void(0)" class="am-icon-edit">编辑</a>
+        </div>
+    </div>
+    <!--</volist>-->
+    <div class="addAddress">
+        <a href="{:U('add_address')}" class="addAddress-box">+添加收货地址</a>
+    </div>
+</div>
+
+<!-- 底部 -->
+<include file="public/footer2"/>
+<!-- 底部 -->
+
+<script>
+    /****************************选中地址start********************************/
+    $('.chat-address .checkbox').on('click',function(){
+        if(!$(this).hasClass('checked')){
+            $('.chat-address .checkbox').removeClass('checked');
+            $(this).addClass('checked');
+        }
+    });
+    /****************************选中地址end********************************/
+
+    /****************************默认地址start********************************/
+    $('.chat-address .default-address.add').on('click',function(){
+        $('.chat-address .default-address').addClass('add');
+        $(this).removeClass('add');
+    });
+    /****************************默认地址end********************************/
+
+    /****************************删除地址start*******************************/
+    $('.delete').on('click',function(){
+        var self = this;
+        $(this).parents('.item').addClass('am-animation-slide-right am-animation-reverse');
+        setTimeout(function(){
+            $(self).parents('.item').remove();
+        },500)
+    });
+    /****************************删除地址end*******************************/
+
+    /****************************下一步start*******************************/
+    $('#next').on('click',function(){
+        if(!$('.checkbox.checked').length){
+            layer.open({
+                content: '请选择一个地址',
+                style:"top:0;"
+                ,skin: 'msg'
+                ,time: 2
+            });
+        }else{
+            window.location.href='../index.html'
+        }
+    });
+    /****************************下一步end*******************************/
+
+</script>
+
+</body>
+</html>

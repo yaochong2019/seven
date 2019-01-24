@@ -1,0 +1,572 @@
+<!-- 顶部 -->
+
+<include file="public/header"/>
+
+<!-- 顶部 -->
+
+<style type="text/css">
+
+		.text {
+
+		  border: 2px solid #5dabdf;
+
+		  border-radius: 3px 0 0 3px;
+
+		  padding: 10px 10px 10px 10px;
+
+		  line-height: 16px;
+
+		  height: 50px;
+
+		  font-size: 14px;
+
+		  outline: none;
+
+		  float: left;
+
+		  
+
+		}
+
+		#button{
+
+		    padding: 0 8px;
+
+		    color: #227dbb;
+
+		    background: #c7e9ff;
+
+		    border: 1px solid #227dbb;
+
+		    text-align: center;
+
+		    display: inline-block;
+
+		    border-radius: 3px;
+
+		    font-size: 1.4rem;
+
+		}
+
+	</style>
+
+
+
+<!-------------------------------- header部分 -------------------------------------->
+
+<header id="header-simple"
+
+        data-am-widget="header"
+
+        class="am-header am-header-default">
+
+    <div class="am-header-left am-header-nav">
+
+        <a href="javascript:history.go(-1)" class="">
+
+            <i class="am-header-icon am-icon-angle-left" style="font-size: 2.2rem;"></i>
+
+        </a>
+
+    </div>
+
+    <h1 class="am-header-title">
+
+        拼团队伍<if condition="$my_group neq null"><span>({$my_group.group_id}人团)</span><else/><span>({$group.group_id}人团)</span></if>
+
+    </h1>
+
+</header>
+
+<div class="bottomPlaceholder"></div>
+
+
+
+<div class="fightGroups">
+
+<!-- <if condition="$my_group_list neq null"> -->
+	我的团
+	<!-- <volist name="my_group_list" id="my_group"> -->
+	<div class="item">
+
+        <div class="left">
+
+            <img src="{$my_group.head_pic}" alt="">
+
+        </div>
+
+        <ul class="center">
+
+            <li>{$my_group[title]}</li>
+					<if condition="$my_group.is_pay eq 0">
+					<li>您还没支付，不能开团</li>
+					<else/>
+					<li>还差<span>{$my_group.group_id-$my_group.user_num}</span>人成团</li>
+					
+					</if>
+
+        </ul>
+
+        <div class="right">
+
+            <span>剩余{:time_distance($my_group['end_time'],0);}结束</span>
+
+						<if condition="$my_group.is_pay eq 0">
+						<span class="add" style="margin-top:10px;" onclick="my_group({$my_group.id});">取消拼团</span>
+							<if condition="$my_group.orderInfo neq null">
+								<a onclick="javascript:top.location.href='/Mobile/Cart/cart4/order_id/{$my_group.orderInfo.order_id}.html'" >立即支付</a>
+							<else/>
+								<a href="javascript:;" onclick="gopay({$my_group.id});">立即支付</a>
+							</if> 
+						<else/>
+							<if condition="$my_group.group_id-$my_group.user_num eq 0">
+							<a href="javascript:">拼团成功</a>
+							<else/>
+							<a href="javascript:;" >已支付</a>
+							</if>
+						
+						</if>
+
+        </div>
+
+    </div>
+	<!-- </volist> -->
+<!-- </if> -->
+
+<if condition="$canyu_group neq null">
+	参与团
+	<!-- <volist name="canyu_group" id="my_group"> -->
+	<div class="item">
+
+        <div class="left">
+
+            <img src="{$my_group.head_pic}" alt="">
+
+        </div>
+
+        <ul class="center">
+
+            <li>{$my_group[title]}</li>
+
+            <li>还差<span>{$my_group.group_id-$my_group.user_num}</span>人成团，人数达到将立即发货</li>
+
+        </ul>
+
+        <div class="right">
+
+            <span>剩余{:time_distance($my_group['end_time'],0);}结束</span>
+
+							<if condition="$my_group.group_id-$my_group.user_num eq 0">
+								<span class="add">拼团成功</span>
+							<else/>
+								<if condition="$my_group.orderInfo neq null">
+								<span onclick="javascript:parent.location.href='/Mobile/Cart/cart4/order_id/{$vo.orderInfo.order_id}.html'" class="add">点击支付</span>
+								<else/>
+									<span class="add" onclick="add_thisgroup({$vo.id})">点击支付</span>
+								</if> 
+							</if> 
+						
+						
+        </div>
+
+    </div>
+	
+	<!-- </volist> -->
+</if>	
+
+<if condition="$group neq null">
+其他团			
+<!-- <volist name="group" id="vo"> -->
+
+    <div class="item">
+
+        <div class="left">
+
+            <img src="{$vo.head_pic}" alt="">
+
+        </div>
+
+        <ul class="center">
+
+            <li>{$vo.title}<!--  <span>浙江 宁波</span> --></li>
+
+            <li>还差<span>{$vo.group_id-$vo.user_num}</span>人成团，人数达到将立即发货</li>
+
+        </ul>
+
+        <div class="right">
+
+            <span>剩余{:time_distance($vo['end_time'],0);}结束</span>
+
+            
+						<if condition="$vo.group_id-$vo.user_num eq 0">
+							<span class="add">拼团成功</span>
+						<else/>
+							<if condition="$vo.orderInfo neq null">
+								<span onclick="javascript:parent.location.href='/Mobile/Cart/cart4/order_id/{$vo.orderInfo.order_id}.html'" class="add">立即参团</span>
+							<else/>
+								<span class="add" onclick="add_thisgroup({$vo.id})">立即参团</span>
+							</if> 
+						</if> 
+        </div>
+
+    </div>
+
+<!-- </volist> -->
+</if>
+
+
+
+
+
+
+</div>
+
+
+
+<!-- <if condition="$my_group eq null"> -->
+
+<div class="group-buy"     >
+
+		<p class="title" style="text-align:center">
+
+			<span>创建一个拼团</span>
+
+		</p>
+
+		<form action="" method="" id="add_form" name="addgroup_form">
+
+
+
+		<div class="list" >
+
+			<div style="width: 70%;float: left;padding:2.5%;padding-right:0;">
+
+				
+
+				<input style="width:100%;" type="text" name="title" class="text" value="" placeholder="在此输入标题！">
+
+			</div>
+
+			<div style="width: 30%;float: left;padding:2.5%;padding-left:0;">
+
+				<select name="group_id" class="text group_id" style="width:100%;border-left:0;border-radius:0" >
+
+					<option value="2">二人团</option>
+
+					<option value="3">三人团</option>
+
+				</select>
+
+			</div>
+
+		</div>
+
+		<p style="text-align:center">
+
+			<a href="javascript:;" id="button">提交创建</a>
+
+			
+
+		</p>
+
+		</form>
+
+	</div>
+
+<!-- </if> -->
+
+
+
+<div class="bottomPlaceholder"></div>
+
+<div id="bottom-menu">
+
+    <div class="item">
+
+        <a onclick="javascript:top.location.href='/'">
+
+            <span></span>
+
+            <p>首页</p>
+
+        </a>
+
+    </div>
+
+    <div class="item">
+
+        <a onclick="javascript:top.location.href='/Mobile/Goods/timeLimitShop'">
+
+            <span></span>
+
+            <p>限时购</p>
+
+        </a>
+
+    </div>
+
+    <div class="item">
+
+        <a href="">
+
+            <span></span>
+
+            <p>客服</p>
+
+        </a>
+
+    </div>
+
+    <div class="item">
+
+        <a onclick="javascript:top.location.href='/Mobile/User/index'">
+
+            <span></span>
+
+            <p>我的</p>
+
+        </a>
+
+    </div>
+
+</div>
+
+
+
+<script src="__STATIC__/js/jquery.min.js"></script>
+
+<script src="__STATIC__/amaze/js/amazeui.min.js"></script>
+
+<script src="__STATIC__/amaze/js/amazeui.swiper.min.js"></script>
+
+<script src="__STATIC__/js/index.js"></script>
+
+<script src="__STATIC__/layer_mobile/layer.js"></script>
+
+
+
+
+
+<script>
+function gopay(id){							
+							var groupid = id;
+							var store_count = parent.$("#huokucun").val();
+							var buyNum = parseInt(parent.$("#number").val());
+							var goods_id = parseInt(parent.$("#goods_id").val());
+							var item_id = parseInt(parent.$("#item_id").val());
+							
+							if (buyNum <= store_count) {
+								top.location.href = "/index.php?m=Mobile&c=Cart&a=cart2&action=buy_now&goods_num="+buyNum+"&goods_id="+goods_id+"&item_id="+item_id+"&groupid="+groupid;
+							} else {
+								layer.open({content:"购买数量超过此商品购买上限",time:2});
+								location.href="/mobile/User/login.html";
+							}
+	
+}
+
+
+function button(){
+
+	var price = $('input[name="group-price"]:checked',parent.document).val();
+
+	//var goods_spec = $('#goods_spec',parent.document).find('input[type="radio"]:checked').val();
+
+	var goods_id = "{:I('id')}"
+
+	
+
+	var form = $("#add_form");
+
+	var data = '';//form.serialize();
+
+		data = data+'&'+'goods_id='+goods_id+'&'+'price='+price
+
+		
+
+	$('#button').click(function(){
+
+		
+
+		var title = $('input[name="title"]').val();
+
+		var regName = /[~#^$@%&!*()<>:;'"{}【】  ]/;
+
+		if (title=='' || title.length< 4 || regName.test(title)) {
+
+			layer.open({
+
+                content:'标题至少4位/不能为空/不能含特殊字符!',
+
+                time: 1.5
+
+            });
+
+			return;
+
+		}
+
+		var group_id = $('.group_id').val();
+
+		data += '&title='+title+'&group_id='+group_id;;
+
+		$.ajax({
+
+			type: "POST",
+
+			url: "/index.php?m=Home&c=Activity&a=addgroup",
+
+			data: data,
+
+			dataType: 'json',
+
+			success: function (data) {
+
+				if(data.status == 1){
+					var groupid = data.result;
+					
+						
+							
+							var store_count = parent.$("#huokucun").val(); 
+							var buyNum = parseInt(parent.$("#number").val());
+							var goods_id = parseInt(parent.$("#goods_id").val());
+							var item_id = parseInt(parent.$("#item_id").val());
+							
+							/*alert(store_count); alert(buyNum); alert(goods_id); alert(item_id); */
+							if (buyNum <= store_count) {
+								location.href = "/index.php?m=Mobile&c=Cart&a=cart2&action=buy_now&goods_num="+buyNum+"&goods_id="+goods_id+"&item_id="+item_id+"&groupid="+groupid;
+							} else {
+								layer.open({content:"购买数量超过此商品购买上限",time:2});
+								location.href="/mobile/User/login.html";
+							}
+							
+					/*history.go(0);
+
+					layer.open({
+
+		                content:data.msg,
+
+		                time: 1.5
+
+		            });*/
+
+				}else{
+
+					layer.open({
+
+		                content:data.msg,
+
+		                time: 1.5
+
+		            });
+
+					return;
+
+				}
+
+				console.log(data);
+
+				//history.go(0);
+
+			}
+
+		});
+
+	});
+
+}
+
+button();
+
+
+
+function add_thisgroup(id) {
+
+							var store_count = parent.$("#huokucun").val(); 
+							var buyNum = parseInt(parent.$("#number").val());
+							var goods_id = parseInt(parent.$("#goods_id").val());
+							var item_id = parseInt(parent.$("#item_id").val());
+							
+							 
+							var groupid = id;
+							parent.$(".zhuituan").val(1);
+							if (buyNum <= store_count) {
+								parent.$(".groupid").val(groupid);
+								parent.$("#buy_goods_form").submit();
+							} else {
+								layer.open({content:"购买数量超过此商品购买上限",time:1.5});
+							}
+			/*$.post("{:U('/home/activity/add_thisgroup')}",{id:id},function(res){
+
+				console.log(res)
+
+				layer.open({
+
+	                content:res.msg,
+
+	                time: 1.5
+
+	            });
+
+				setTimeout (function(){
+
+					history.go(0);
+
+				},1500);
+
+			},'json')*/
+
+
+
+		}
+
+function my_group(id){
+
+			$.ajax({
+
+				type:"post",
+
+				url:"{:U('/home/activity/del_group')}",
+
+				data:{id:id},
+
+				dataType:'json',
+
+				success:function(res){
+
+					/*layer.open({
+
+						content:res.msg,
+
+						time:1.5
+
+					});
+
+					if (res.status == 1) {
+
+						location.href="{:U('Goods/goodsInfo',array('id'=>$my_group.goods_id))}";
+
+					}*/
+					layer.open({
+
+						content:res.msg,
+
+						time: 1.5
+
+					});
+
+					setTimeout (function(){
+
+						top.location.href="{:U('Goods/goodsInfo',array('id'=>$my_group.goods_id))}";
+
+					},1500); 
+
+				}
+
+			});
+
+			//layer.msg(id+getCookie('user_id'));
+
+		}
+
+</script>

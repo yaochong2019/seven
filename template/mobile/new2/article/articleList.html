@@ -1,0 +1,35 @@
+<!-- 顶部 -->
+<include file="public/header"/>
+<!-- 顶部 -->
+
+
+
+<include file="public/left"/>
+
+
+
+<div class="bottomPlaceholder"></div>
+<div class="bottomPlaceholder"></div>
+<div class="person-news">
+    <!--<volist name="article" id="vo">-->
+    <div class="item" onclick="location.href='{:U('detail',array('article_id'=>$vo[article_id]))}'">
+        <h4><span>{$vo[publish_time]|date='Y-m-d',###}</span> {$vo[title]}</h4>
+        <div class="content">
+            <!--<if condition="$v[thumb]">-->
+            <img src="{$vo[thumb]}" alt="">
+            <!--</if>-->
+            {$vo[description]}
+        </div>
+    </div>
+    <!--</volist>-->
+
+    {$page}
+
+</div>
+
+
+
+
+<!-- 底部 -->
+<include file="public/footer"/>
+<!-- 底部 -->
