@@ -66,9 +66,10 @@ em {
   font-style: normal;
 }
 body {
-  font-size: 14px;
+  font-size: 14px;  
   color: #5b5b5b;
-  line-height: 30px;
+  /* line-height: 30px; celia commented out */
+  ling-height:1.5 !important; 
   font-family: "Microsoft yahei", Arial;
 }
 .text-left {
@@ -1396,6 +1397,7 @@ body {
   background: #227dbb;
   color: #fff;
 }
+
 .product-detail-tab .tab-title {
   border: 1px solid #e6e6e6;
   font-size: 0;
@@ -1428,6 +1430,11 @@ body {
 }
 .product-detail-tab .product-tab-cont > div {
   display: none;
+}
+/* celia */
+.product-detail-tab .product-tab-cont .tab-item p {
+	margin:0 0 0 20px !important;
+	text-align: left;
 }
 .view-comment-condition {
   height: 50px;
@@ -2892,4 +2899,9 @@ body {
 }
 .header .login-header-right .advantage .item {
   padding-left: 30px;
+}
+
+/* celia */
+.product-detail-tab {
+	max-width: 850px !important;
 }

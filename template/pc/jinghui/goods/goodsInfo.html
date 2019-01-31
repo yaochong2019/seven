@@ -49,7 +49,7 @@
     ul,li{list-style: none;margin:0;padding:0;}
     .product-basic-message .img-list{margin-bottom: 30px;}
     .bg{width:920px;height: 540px;margin:0 auto;padding:20px;border:1px solid #E8E8E8;overflow: hidden;min-width: 900px;box-sizing: border-box;background: #fff;}
-    .bg_left{width: 660px;height:auto;float: left}
+    .bg_left{width: 95%;height:auto;float: left}
     .bg_right{float: left;position: absolute;left: 48%;z-index: 99;background:#fff;margin-top: 0;}
     .show{width: 430px;height: 430px;margin-left:125px;margin-bottom: 10px;position: relative;cursor:move}
     .show img{width: 430px;height: 430px; display: none;}
@@ -257,6 +257,12 @@
 							<span style="color:#828282;">{$goods.declare}</span>
 						</div>
 					</div>
+					<div class="price-item other-item">
+						<div class="title">货号</div>
+						<div class="text">
+							<span style="color:#828282;">{$goods.goods_sn}</span>
+						</div>
+					</div>
 				</div>
 				<div class="btn-group">
 					<if condition="$goods[is_virtual] eq 1">
@@ -334,11 +340,13 @@
 			<div class="product-tab-cont" style="width: 100%;">
 				<div class="tab-item" style="width: 100%;">
 					<div style="width: 100%;">
+						<!-- 
                         <p><span>商品名称：</span><span>{$goods.goods_name}</span></p>
+                        -->
                         <div>
                             <ul>
                                 <!--<li><span>品牌：</span><span>{$goods['brand_name']}</span></li>-->
-                                <li><span>货号：</span><span>{$goods.goods_sn}</span></li>
+                                <li><!-- <span>货号：</span><span>{$goods.goods_sn}</span> --></li>
                                 <foreach name="goods_attr_list" item="v" key="k" >
                                     <li><span>{$goods_attribute[$v[attr_id]]}：</span><span>{$v[attr_value]}</span></li>
                                 </foreach>

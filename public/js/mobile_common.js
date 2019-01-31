@@ -1,3 +1,7 @@
+// Added by Celia 20190130 to make product intro images scale correctly on mobile:
+$(".product-detail .des img").removeAttr('height');
+// end added
+
 /**
  * 将商品加入购物车
  * @param goods_id|商品id
