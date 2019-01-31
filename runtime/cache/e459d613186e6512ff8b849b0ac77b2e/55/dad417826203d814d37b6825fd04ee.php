@@ -1,3 +1,0 @@
-<?php
-//000000000001[{"img_id":202,"goods_id":72,"image_url":"\/public\/upload\/goods\/2019\/01-08\/f09b961a330e5b003902fd0291cb003c.jpg"},{"img_id":201,"goods_id":72,"image_url":"\/public\/upload\/goods\/2019\/01-08\/5e2bdc61322e03c7b020e7851991188f.jpg"},{"img_id":199,"goods_id":72,"image_url":"\/public\/upload\/goods\/2019\/01-08\/df4eeb439f1110cfe21ed84630447105.jpg"},{"img_id":200,"goods_id":72,"image_url":"\/public\/upload\/goods\/2019\/01-08\/22cd1f2eb487a7773e6482fe6c5980b1.jpg"},{"img_id":193,"goods_id":81,"image_url":"\/public\/upload\/goods\/2019\/01-07\/71f28b362db3230bacf37e74ea73601a.jpg"},{"img_id":194,"goods_id":82,"image_url":"\/public\/upload\/goods\/2019\/01-07\/fa9ed0683eabde4f2e4a7ac0d07ec930.png"}]
-?>

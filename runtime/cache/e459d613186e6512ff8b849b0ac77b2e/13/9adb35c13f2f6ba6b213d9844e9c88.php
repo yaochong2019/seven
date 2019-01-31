@@ -1,3 +1,0 @@
-<?php
-//000000086400[{"id":28,"cat_id":42,"logo":"\/public\/upload\/brand\/2019\/01-21\/a96042d489e01ea37c5209cfc48228c0.jpg","is_hot":0},{"id":27,"cat_id":42,"logo":"\/public\/upload\/brand\/2019\/01-07\/7f2157c851098e8a767d20a49de2172d.png","is_hot":0},{"id":25,"cat_id":28,"logo":"\/public\/upload\/brand\/2018\/08-21\/876b9a7937c1a27d483c47d22dfb5bee.jpg","is_hot":0},{"id":26,"cat_id":21,"logo":"\/public\/upload\/brand\/2019\/01-03\/0042b2434741a833ee1cb785a969488b.jpg","is_hot":0}]
-?>
